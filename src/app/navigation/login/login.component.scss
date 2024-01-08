@@ -1,0 +1,107 @@
+.c-main-div
+{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-div
+{
+    height: 25rem;
+    width: 25rem;
+    background-color: green;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.input-div
+{
+    // background-color: $background-color;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 80%;
+    // border: 1px solid lighten($background-color, 12%);
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+}
+
+.input-label
+{
+    width: 100%;
+    // color: $font-default-color;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    padding-bottom: 0.3rem;
+    font-weight: 500;
+}
+
+.input
+{
+    box-sizing: border-box;
+    // border: 1px solid lighten($background-color, 12%);
+    width: 100%;
+    outline: none;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.75rem;
+    border-radius: 0.375rem;
+    // background-color: darken($background-color, 6%);
+    // color: $font-default-color;
+    
+}
+
+.input:focus
+{
+    box-sizing: border-box;
+    // border: 1px solid lighten($background-color, 12%);
+    // outline: 2px solid lighten($background-color, 12%);
+    // background-color: $font-default-color;
+    // color: darken($background-color, 6%);
+    
+}
+
+.button-div
+{
+    // background-color: $background-color;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 80%;
+    // border: 1px solid lighten($background-color, 12%);
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    padding-top: 1.2rem;
+}
+
+.button
+{
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    width: 100%;
+    // padding-left: 0.75rem;
+    // padding-right: 0.75rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-radius: 0.375rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    cursor:pointer;
+    // color: $font-default-color;
+    appearance: none;
+    border: none;
+    // background-color: lighten($background-color, 9%);
+}

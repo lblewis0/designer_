@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { LoginDTO } from '../../models/DTO/loginDTO';
 import { HttpClient } from '@angular/common/http';
 import { TokenDTO } from '../../models/DTO/tokenDTO';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ export class SessionService {
   private _currentUser: BehaviorSubject<TokenDTO | undefined>
 
   constructor(
-    private readonly http: HttpClient) {
+    private readonly http: HttpClient,
+    private router: Router) {
     this._currentUser = new BehaviorSubject<TokenDTO | undefined>(undefined);
   }
 
@@ -41,9 +43,12 @@ export class SessionService {
       }
     })
 
+    this.router.navigate(["home"]);
+
   }
 
   logout() : void {
     this._currentUser.next(undefined);
+    this.router.navigate(["login"]);
   }
 }

@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginDTO } from '../../shared/models/DTO/loginDTO';
 import { SessionService } from '../../shared/services/authentification/session.service';
-import { TokenDTO } from '../../shared/models/DTO/tokenDTO';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -16,8 +14,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private _formBuilder: FormBuilder,
-    private _sessionService: SessionService,
-    private router: Router
+    private _sessionService: SessionService
   ){
     this.loginForm = this._formBuilder.group({
       username: [null, [Validators.required]],
@@ -36,11 +33,10 @@ export class LoginComponent implements OnInit {
       let dto: LoginDTO = this.loginForm.value;
       
       this._sessionService.login(dto);
-      this.router.navigate(["home"]);
     }
     else
     {
-      console.log("!this.loginForm.valid");
+      console.log("-!this.loginForm.valid");
     }
   }
 

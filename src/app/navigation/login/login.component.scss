@@ -10,7 +10,9 @@
 
 .login-div
 {
-    height: 25rem;
+    height: fit-content;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
     width: 25rem;
     background-color: green;
     border-radius: 0.5rem;
@@ -19,6 +21,18 @@
     justify-content: center;
     align-items: center;
     gap: 0.5rem;
+    // border: 1px solid blue;
+}
+
+.form
+{
+    // border: 1px solid yellow;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    height: fit-content;
 }
 
 .input-div
@@ -28,10 +42,11 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    width: 80%;
-    // border: 1px solid lighten($background-color, 12%);
+    width: calc(100% - 1rem);
+    // border: 1px solid red;
     padding: 0.5rem;
     border-radius: 0.375rem;
+    gap: 0.3rem;
 }
 
 .input-label
@@ -47,7 +62,7 @@
 .input
 {
     box-sizing: border-box;
-    // border: 1px solid lighten($background-color, 12%);
+    border: 0px solid black;
     width: 100%;
     outline: none;
     font-size: 0.875rem;
@@ -67,8 +82,30 @@
     // border: 1px solid lighten($background-color, 12%);
     // outline: 2px solid lighten($background-color, 12%);
     // background-color: $font-default-color;
-    // color: darken($background-color, 6%);
-    
+    // color: darken($background-color, 6%); 
+}
+
+.input-invalid
+{
+    box-sizing: border-box;
+    border: 1px solid red;
+    width: 100%;
+    outline: none;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.75rem;
+    border-radius: 0.375rem;
+    // background-color: darken($background-color, 6%);
+    // color: $font-default-color;
+}
+
+.error-message
+{
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: red;
 }
 
 .button-div
@@ -78,11 +115,12 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    width: 80%;
+    width: 70%;
     // border: 1px solid lighten($background-color, 12%);
     padding: 0.5rem;
     border-radius: 0.375rem;
     padding-top: 1.2rem;
+    // border: 1px solid magenta;
 }
 
 .button

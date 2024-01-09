@@ -12,6 +12,9 @@ export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
 
+  userNameValid: boolean = true;
+  passwordValid: boolean = true;
+
   constructor(
     private _formBuilder: FormBuilder,
     private _sessionService: SessionService
@@ -33,11 +36,15 @@ export class LoginComponent implements OnInit {
       let dto: LoginDTO = this.loginForm.value;
       
       this._sessionService.login(dto);
+
+      this.userNameValid = this._sessionService.usernameValid;
+      this.passwordValid = this._sessionService.passwordValid;
     }
     else
     {
       console.log("-!this.loginForm.valid");
     }
+
   }
 
 }

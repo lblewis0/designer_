@@ -13,9 +13,6 @@ export class SessionService {
 
   private _currentUser: BehaviorSubject<TokenDTO | undefined>
 
-  usernameValid: boolean = true;
-  passwordValid: boolean = true;
-
   constructor(private readonly http: HttpClient, private router: Router) 
   {
     this._currentUser = new BehaviorSubject<TokenDTO | undefined>(undefined);
@@ -41,29 +38,13 @@ export class SessionService {
     console.log("Http request: https://localhost:7043/api/Authentification/login, dto");
     console.log(dto);
 
-    return this.http.post("https://localhost:7043/api/Authentification/login", dto).subscribe({
-      next: (result: any) => {
-        let resultDTO: TokenDTO = result;
-        this._currentUser.next(resultDTO);
-        this.usernameValid = true;
-        this.passwordValid = true;
-        localStorage.setItem("currentUser", JSON.stringify(resultDTO));
-        console.log(resultDTO);
-      },
-      error: (error) => {
-        let errorMesssage: ErrorMessageDTO = error;
-        if(errorMesssage.message === "userNotFound"){
-          this.usernameValid = false;
-        }
+    return this.http.post<TokenDTO>("https://localhost:7043/api/Authentification/login", dto)
+    .pipe(tap((tokenDTO: TokenDTO) => {
+      this._currentUser.next(tokenDTO);
+      localStorage.setItem("currentUser", JSON.stringify(tokenDTO));
+      console.log(tokenDTO);
+    }));
 
-        if(errorMesssage.message === "wrongPassword"){
-          this.passwordValid = false;
-        }
-        console.log(error);
-      }
-    })
-
-    this.router.navigate(["home"]);
   }
 
   logout() : void {

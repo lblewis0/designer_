@@ -3,12 +3,12 @@
         <form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <div class="input-div">
                 <label for="input" class="input-label">Username</label>
-                <input [ngClass]="{'input' : userNameValid, 
-                                   'input-invalid' : !userNameValid}" 
+                <input [ngClass]="{'input' : usernameValid, 
+                                   'input-invalid' : !usernameValid}" 
                        type="text" 
                        placeholder="Username" 
                        formControlName="username">
-                <span *ngIf="!userNameValid" class="error-message">Username doesn't exist</span>
+                <span *ngIf="!usernameValid" class="error-message">Username doesn't exist</span>
             </div>
             <div class="input-div">
                 <label for="input" class="input-label">Password</label>

@@ -12,7 +12,7 @@ export const isAuthGuard: CanActivateFn = (route, state) => {
   }
   else
   {
-    // router.navigate(["page de renvoi si faux"]);
+    router.navigate(["login"]);
     return false;
   }
 };

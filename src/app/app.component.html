@@ -1,9 +1,9 @@
 <div class="main-div">
-  <div *ngIf="isConnected" class="main-top-div">
+  <div *ngIf="connected" class="main-top-div">
     <app-navbar></app-navbar>
   </div>
   <div class="main-bottom-div">
-    <div *ngIf="isConnected" class="second-left-div">
+    <div *ngIf="connected" class="second-left-div">
       <app-sidebar></app-sidebar>
     </div>
     <div class="second-right-div">

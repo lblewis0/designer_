@@ -1,6 +1,6 @@
 import { UserDTO } from "./userDTO";
 
 export interface TokenDTO {
-    UserDTO: UserDTO;
-    Token: string;
+    userDTO: UserDTO;
+    token: string;
 }

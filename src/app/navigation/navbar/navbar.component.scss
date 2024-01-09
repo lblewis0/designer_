@@ -1,3 +1,5 @@
+@import "../../../app/shared/styles/colors.scss";
+
 .c-main-div
 {
     height: 100%;
@@ -8,4 +10,5 @@
     align-items: center;
     padding-left: 1rem;
     gap: 2rem;
+    background-color: $dark-1;
 }

@@ -1,0 +1,32 @@
+$dark-0: #121212;
+$white-0: white;
+$primary: #6366f1;
+
+$dark-1: mix($dark-0, $primary, 98%);
+$dark-2: mix($dark-0, $primary, 96%);
+$dark-3: mix($dark-0, $primary, 94%);
+$dark-4: mix($dark-0, $primary, 92%);
+$dark-5: mix($dark-0, $primary, 90%);
+
+$white-1: mix($white-0, $primary, 98%);
+$white-2: mix($white-0, $primary, 96%);
+$white-3: mix($white-0, $primary, 94%);
+$white-4: mix($white-0, $primary, 92%);
+$white-5: mix($white-0, $primary, 90%);
+
+$font-default: $white-4;
+$font-hover: $white-3;
+$font-active: $white-2;
+$font-selected: $white-1;
+$font-disabled: $white-5;
+
+$info: rgb(5, 152, 195);
+$info-b: mix($info, $dark-1, 20%);
+$success: rgb(5, 201, 119);
+$success-b: mix($success, $dark-1, 20%);
+$warning: rgb(243, 137, 9);
+$warning-b: mix($warning, $dark-1, 20%);
+$error: rgb(230, 76, 72);
+$error-b: mix($error, $dark-1, 20%);
+$primary-b: mix($primary, $dark-1, 20%);
+

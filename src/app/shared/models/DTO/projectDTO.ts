@@ -1,6 +1,6 @@
 export interface ProjectDTO {
     name: string;
-    creationDate: Date;
-    lastUpdateDate: Date;
-    userId: number;
+    creationDate: string;
+    lastUpdateDate: string;
+    userId: number | undefined;
 }

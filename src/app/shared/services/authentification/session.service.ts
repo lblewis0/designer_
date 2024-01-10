@@ -35,10 +35,10 @@ export class SessionService {
   login(dto: LoginDTO) {
 
     console.log("SessionService.login(dto: LoginDTO)");
-    console.log("Http request: https://localhost:7043/api/Authentification/login, dto");
+    console.log("Http request: https://localhost:7241/api/Authentification/login, dto");
     console.log(dto);
 
-    return this.http.post<TokenDTO>("https://localhost:7043/api/Authentification/login", dto)
+    return this.http.post<TokenDTO>("https://localhost:7241/api/Authentification/login", dto)
     .pipe(tap((tokenDTO: TokenDTO) => {
       this._currentUser.next(tokenDTO);
       localStorage.setItem("currentUser", JSON.stringify(tokenDTO));

@@ -86,6 +86,17 @@
     gap: 0.5rem;
 }
 
+.form-div
+{
+    height: fit-content;
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.5rem;
+}
+
 .input
 {
     box-sizing: border-box;

@@ -15,51 +15,174 @@
 .left-div
 {
     height: 100%;
-    width: 200px;
-    background-color: yellow;
+    width: fit-content;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.breadcrumb-div
+{
+    border-radius: 0.375rem;
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.breadcrumb-first-route-element-label
+{
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    padding-left: 0.75rem;
+    padding-right: 0.5rem;
+    color: $primary;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.breadcrumb-first-route-element-label:hover
+{
+    color: $primary;
+}
+
+.breadcrumb-first-route-element-label:active
+{
+    color: $primary;
+}
+
+.breadcrumb-route-element-label
+{
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    color: $font-default;
+    cursor: pointer;
+}
+
+.breadcrumb-route-element-label:hover
+{
+    color: $font-hover;
+}
+
+.breadcrumb-route-element-label:active
+{
+    color: $font-active;
+}
+
+.breadcrumb-last-route-element-label
+{
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    padding-left: 0.5rem;
+    padding-right: 0.75rem;
+    color: $font-default;
+    cursor: pointer;
+}
+
+.breadcrumb-last-route-element-label:hover
+{
+    color: $font-hover;
+}
+
+.breadcrumb-last-route-element-label:active
+{
+    color: $font-active;
+}
+
+.breadcrumb-right-arrow-icon
+{
+    fill: $font-default;
+    width: 1.25rem;
+    height: 1.25rem;
 }
 
 .center-div
 {
     height: 100%;
     flex-grow: 1;
-    background-color: red;
 }
 
 .right-div
 {
     height: 100%;
-    width: 200px;
-    background-color: green;
+    width: fit-content;
+    background-color: $dark-1;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
 }
 
 .status-bar
 {
-    height: 90%;
+    height: fit-content;
     width: fit-content;
     background-color: yellow;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding-left: 0.5rem;
+    border: 2px solid $success;
+    background-color: $success-b;
+    border-radius: 0.375rem;
 }
 
 .user-label
 {
-    height: 100%;
+    height: fit-content;
     width: fit-content;
-    background-color: magenta;
+    background-color: $success-b;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    padding-left: 0.5rem;
+    padding-right: 0.75rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    border-radius: 0.375rem;
+    color: $success;
 }
 
 .logout-button
 {
     height: 100%;
-    width: 2rem;
-    background-color: blue;
+    width: fit-content;
+    background-color: darken($success-b, 4%);
     border: 0px solid black;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.375rem;
+    cursor: pointer;
 }
+
+.logout-button:hover
+{
+    background-color: darken($success-b, 6%);
+}
+
+.logout-button-icon
+{
+    height: 1.5rem;
+    width: 1.5rem;
+    padding: 0.15rem;
+    inset: -0.375rem;
+    box-sizing: border-box;
+    fill: $success;
+    padding-right: 0rem;
+}
+

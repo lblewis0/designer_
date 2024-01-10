@@ -2,12 +2,35 @@
     <!-- <label class="status">{{status}}</label>
     <label class="username">{{username}}</label>
     <button (click)="logout()">logout</button> -->
-    <div class="left-div"></div>
+    <div class="left-div">
+        <div class="breadcrumb-div">
+            <ng-container *ngFor="let element of routeElement; let i=index">
+                <ng-container *ngIf="i !== (routeElement.length - 1)">
+                    <label *ngIf="i === 0" class="breadcrumb-first-route-element-label"><a>{{element}}</a></label>
+                    <label *ngIf="i !== 0" class="breadcrumb-route-element-label"><a>{{element}}</a></label>
+                    <svg class="breadcrumb-right-arrow-icon" 
+                         xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 -960 960 960" >
+                         <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
+                    </svg>
+                </ng-container>
+                <ng-container *ngIf="i === (routeElement.length - 1)">
+                    <label class="breadcrumb-last-route-element-label"><a>{{element}}</a></label>
+                </ng-container>
+            </ng-container>
+        </div>
+    </div>
     <div class="center-div"></div>
     <div class="right-div">
         <div class="status-bar">
             <label class="user-label">{{currentUser?.userDTO?.firstname}} {{currentUser?.userDTO?.lastname}}</label>
-            <button class="logout-button"></button>
+            <button class="logout-button" (click)="logout()">
+                <svg class="logout-button-icon" 
+                     xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 -960 960 960" >
+                    <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/>
+                </svg>
+            </button>
         </div>
     </div>
 </div>

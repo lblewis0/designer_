@@ -13,6 +13,9 @@ export class NavbarComponent {
   username!: string | undefined;
   currentUser!: TokenDTO | undefined;
 
+  route: string = 'Home/Projects';
+  routeElement: string[] = this.route.split("/");
+
   constructor(private readonly _sessionService: SessionService){
     this._sessionService.currentUser$.subscribe({
       next: (result: any) => {

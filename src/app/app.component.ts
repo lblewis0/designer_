@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { SessionService } from './shared/services/authentification/session.service';
 import { TokenDTO } from './shared/models/DTO/tokenDTO';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',

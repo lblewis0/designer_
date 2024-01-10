@@ -45,6 +45,13 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    position: relative;
+    cursor: pointer;
+}
+
+.button-icon:hover
+{
+    background-color: $dark-2;
 }
 
 .button-icon-selected
@@ -59,6 +66,20 @@
     background-color: $dark-5;
     border-radius: 0.375rem 0 0 0.375rem;
     position: relative;
+    cursor: pointer;
+}
+
+.button-icon-span
+{
+    background-color: $success;
+    border-radius: 50%;
+    width: 0.7rem;
+    height: 0.7rem;
+    position: absolute;
+    top: 1rem;
+    left: 75%;
+    transform: translate(-50%, -50%);
+    border: 2px solid $dark-5;
 }
 
 .top-round

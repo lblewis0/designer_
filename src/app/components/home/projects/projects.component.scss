@@ -1,7 +1,9 @@
+@import '../../../shared/styles/colors.scss';
+
 .c-main-div
 {
     width: 40rem;
     height: 40rem;
-    // background-color: red;
+    background-color: $dark-1;
     border-radius: 0.5rem;
 }

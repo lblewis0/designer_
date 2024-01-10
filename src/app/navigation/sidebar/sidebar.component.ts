@@ -53,14 +53,6 @@ export class SidebarComponent {
 
   }
 
-  logout(){
-    this._sessionService.logout();
-    this.currentUser = undefined;
-    this.connected = false;
-    this.status = "Disconnected";
-    this.username = undefined;
-  }
-
   onClickSidebarButtons(index: number) : void
   {
       for(let i=0; i < this.buttons.length; i++)

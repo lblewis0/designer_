@@ -2,4 +2,12 @@
     <!-- <label class="status">{{status}}</label>
     <label class="username">{{username}}</label>
     <button (click)="logout()">logout</button> -->
+    <div class="left-div"></div>
+    <div class="center-div"></div>
+    <div class="right-div">
+        <div class="status-bar">
+            <label class="user-label">{{currentUser?.userDTO?.firstname}} {{currentUser?.userDTO?.lastname}}</label>
+            <button class="logout-button"></button>
+        </div>
+    </div>
 </div>

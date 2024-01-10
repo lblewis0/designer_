@@ -1,12 +1,13 @@
-$dark-0: #121212;
+$dark: #121212;
 $white-0: white;
 $primary: #6366f1;
 
-$dark-1: mix($dark-0, $primary, 98%);
-$dark-2: mix($dark-0, $primary, 96%);
-$dark-3: mix($dark-0, $primary, 94%);
-$dark-4: mix($dark-0, $primary, 92%);
-$dark-5: mix($dark-0, $primary, 90%);
+$dark-0: mix($dark, $primary, 98%);
+$dark-1: lighten($dark-0, 2%);
+$dark-2: lighten($dark-0, 4%);
+$dark-3: lighten($dark-0, 6%);
+$dark-4: lighten($dark-0, 8%);
+$dark-5: lighten($dark-0, 10%);
 
 $white-1: mix($white-0, $primary, 98%);
 $white-2: mix($white-0, $primary, 96%);

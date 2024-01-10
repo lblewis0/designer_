@@ -2,18 +2,17 @@
 {
     height: 100%;
     width: 100%;
-    background-color: red;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    box-sizing: border-box;
 }
 
 .main-top-div
 {
-    height: 3rem;
+    height: fit-content;
     width: 100%;
-    background-color: green;
 }
 
 .main-bottom-div
@@ -28,18 +27,14 @@
 
 .second-left-div
 {
-    width: 20rem;
+    width: fit-content;
     height: 100%;
-    background-color: blue;
 }
 
 .second-right-div
 {
     flex-grow: 1;
     height: 100%;
-    background-color: yellow;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
+
+

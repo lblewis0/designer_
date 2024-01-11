@@ -42,6 +42,7 @@ export class SessionService {
     .pipe(tap((tokenDTO: TokenDTO) => {
       this._currentUser.next(tokenDTO);
       localStorage.setItem("currentUser", JSON.stringify(tokenDTO));
+      console.log("Http request: success");
       console.log(tokenDTO);
     }));
 

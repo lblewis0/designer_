@@ -33,7 +33,8 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
-
+    
+    console.log("");
     console.log("LoginComponent.onSubmit()");
     if(this.loginForm.valid)
     {

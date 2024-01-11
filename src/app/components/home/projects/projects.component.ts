@@ -16,6 +16,7 @@ export class ProjectsComponent {
 
   userId!: number | undefined;
   currentUser!: TokenDTO | undefined;
+  projects!: ProjectDTO[];
 
   constructor(
     private _formBuilder: FormBuilder, 
@@ -32,15 +33,19 @@ export class ProjectsComponent {
         this.userId = this.currentUser?.userDTO?.id;
       }
     })
+
+    this.getProjects();
   }
 
   addProject()
   {
+    console.log("");
     console.log("ProjectComponent.addProject()");
     if(this.projectForm.valid)
     {
       console.log("-this.projectForm.valid");
       let dto: ProjectDTO = {
+        id: 0,
         name: "",
         creationDate: "",
         lastUpdateDate: "",
@@ -56,6 +61,7 @@ export class ProjectsComponent {
       this._projectService.createProject(dto).subscribe({
         next: (result: any) => {
           console.log("Http request: success");
+          this.getProjects()
         },
         error: (error: any) => {
           console.log(error);
@@ -65,5 +71,21 @@ export class ProjectsComponent {
     else{
       console.log("-!this.projectForm.valid");
     }
+
+  }
+
+  getProjects(){
+    console.log("");
+    console.log("ProjectComponent.getProjects()");
+    this._projectService.getProjects(this.currentUser as TokenDTO).subscribe({
+      next: (result: any) => {
+        console.log("Http request: success");
+        this.projects = result;
+        console.log(this.projects);
+      },
+      error: (error: any) => {
+        console.log(error);
+      }
+    })
   }
 }

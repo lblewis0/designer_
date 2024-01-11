@@ -3,7 +3,69 @@
         <label class="title">Projects</label>
     </div>
     <div class="table-div">
-        <div class="table-table-div"></div>
+        <div class="table-table-div">
+            <div id="name-col" class="table-col-div">
+                <div id="name-header" class="table-col-div-header">
+                    Name
+                </div>
+                <div id="scroll1" class="table-col-div-body-first" #scroll1 (scroll)="scrollEvent('#scroll1')">
+                    <div *ngFor="let project of projects; let i=index"
+                        [ngClass]="{'table-col-div-body-element': hoverIndex !== i && activeIndex !== i,
+                                    'table-col-div-body-element-hover' : hoverIndex === i && activeIndex !== i,
+                                    'table-col-div-body-element-active' : activeIndex === i}"  
+                        (mouseenter)="onMouseEnter(i)"
+                        (mouseleave)="onMouseLeave(i)"
+                        (mousedown)="onMouseDown(i)"
+                        (mouseup)="onMouseUp(i)">{{project.name}}
+                    </div>
+                </div>
+            </div>
+            <div id="status-col" class="table-col-div">
+                <div id="status-header" class="table-col-div-header">
+                    Status
+                </div>
+                <div id="scroll2" class="table-col-div-body" #scroll2 (scroll)="scrollEvent('#scroll2')">
+                    <div *ngFor="let project of projects; let i=index" 
+                         [ngClass]="{'table-col-div-body-element': hoverIndex !== i,
+                                     'table-col-div-body-element-hover' : hoverIndex ===i,
+                                     'table-col-div-body-element-active' : activeIndex === i}"
+                         (mouseenter)="onMouseEnter(i)"
+                         (mouseleave)="onMouseLeave(i)"
+                         (mousedown)="onMouseDown(i)"
+                         (mouseup)="onMouseUp(i)">Status</div>
+                </div>
+            </div>
+            <div id="creation-col" class="table-col-div">
+                <div id="creation-header" class="table-col-div-header">
+                    Created
+                </div>
+                <div id="scroll3" class="table-col-div-body" #scroll3 (scroll)="scrollEvent('#scroll3')">
+                    <div *ngFor="let project of projects; let i=index" 
+                         [ngClass]="{'table-col-div-body-element': hoverIndex !== i,
+                                     'table-col-div-body-element-hover' : hoverIndex ===i,
+                                     'table-col-div-body-element-active' : activeIndex === i}"
+                         (mouseenter)="onMouseEnter(i)"
+                         (mouseleave)="onMouseLeave(i)"
+                         (mousedown)="onMouseDown(i)"
+                         (mouseup)="onMouseUp(i)">{{project.creationDate}}</div>
+                </div>
+            </div>
+            <div id="update-col" class="table-col-div">
+                <div id="update-header" class="table-col-div-header">
+                    Updated
+                </div>
+                <div id="scroll4" class="table-col-div-body-last" #scroll4 (scroll)="scrollEvent('#scroll4')">
+                    <div *ngFor="let project of projects; let i=index" 
+                         [ngClass]="{'table-col-div-body-element': hoverIndex !== i,
+                                     'table-col-div-body-element-hover' : hoverIndex ===i,
+                                     'table-col-div-body-element-active' : activeIndex === i}"
+                         (mouseenter)="onMouseEnter(i)"
+                         (mouseleave)="onMouseLeave(i)"
+                         (mousedown)="onMouseDown(i)"
+                         (mouseup)="onMouseUp(i)">{{project.lastUpdateDate}}</div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="footer-div">
         <div class="footer-left-div">

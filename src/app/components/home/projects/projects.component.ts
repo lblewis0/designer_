@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { ProjectService } from '../../../shared/services/project/project.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProjectDTO } from '../../../shared/models/DTO/projectDTO';
@@ -18,10 +18,17 @@ export class ProjectsComponent {
   currentUser!: TokenDTO | undefined;
   projects!: ProjectDTO[];
 
+  colElement: string[] = ['#scroll1','#scroll2','#scroll3','#scroll4'];
+
+  hoverIndex: number | null = null;
+
+  activeIndex: number | null = null;
+
   constructor(
     private _formBuilder: FormBuilder, 
     private _projectService: ProjectService,
-    private _sessionService: SessionService
+    private _sessionService: SessionService,
+    private el: ElementRef
   ){
     this.projectForm = this._formBuilder.group({
       projectName: [null, [Validators.required]]
@@ -87,5 +94,41 @@ export class ProjectsComponent {
         console.log(error);
       }
     })
+  }
+
+  scrollEvent(elementScroll: string) : void
+  {
+    let scrollColumn = this.el.nativeElement.querySelector(elementScroll);
+
+    for(let i=0; i < this.colElement.length; i++)
+    {
+      let appliedColumn = this.el.nativeElement.querySelector(this.colElement[i]);
+
+      if(appliedColumn !== scrollColumn)
+      {
+        appliedColumn.scrollTop = scrollColumn.scrollTop;
+      }
+    }
+
+  }
+
+  onMouseEnter(index: number) : void
+  {
+    this.hoverIndex = index;
+  }
+
+  onMouseLeave(index: number) : void
+  {
+    this.hoverIndex = null;
+  }
+
+  onMouseDown(index: number) : void
+  {
+    this.activeIndex = index;
+  }
+
+  onMouseUp(index: number) : void
+  {
+    this.activeIndex = null;
   }
 }

@@ -3,6 +3,7 @@ import { SessionService } from './shared/services/authentification/session.servi
 import { TokenDTO } from './shared/models/DTO/tokenDTO';
 import { RouterOutlet } from '@angular/router';
 import { ProjectService } from './shared/services/project/project.service';
+import { ProjectContext } from './shared/models/models/projectContext';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,7 @@ export class AppComponent {
   connected!: boolean;
   currentUser!: TokenDTO | undefined;
 
-  projectContextMenuActive!: Boolean;
+  projectContext!: ProjectContext | undefined;
 
   constructor(
     private readonly _sessionService: SessionService,
@@ -27,9 +28,9 @@ export class AppComponent {
       }
     })
 
-    this._projectService.contextActive$.subscribe({
+    this._projectService.context$.subscribe({
       next: (result: any) => {
-        this.projectContextMenuActive = result;
+        this.projectContext = result;
       }
     })
   }

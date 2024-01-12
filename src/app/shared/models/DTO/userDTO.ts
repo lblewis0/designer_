@@ -5,4 +5,5 @@ export interface UserDTO {
     email: string;
     username: string;
     role: string;
+    activeProjectId: number;
 }

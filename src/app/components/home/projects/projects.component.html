@@ -17,7 +17,8 @@
                         (mouseleave)="onMouseLeave(i)"
                         (mousedown)="onMouseDown(i)"
                         (mouseup)="onMouseUp(i)"
-                        (contextmenu)="onProjectRightClick($event, i)">{{project.name}}
+                        (contextmenu)="onProjectRightClick($event, i)"
+                        (click)="updateActiveProject(project.id)">{{project.name}}
                     </div>
                 </div>
             </div>
@@ -34,9 +35,13 @@
                          (mouseleave)="onMouseLeave(i)"
                          (mousedown)="onMouseDown(i)"
                          (mouseup)="onMouseUp(i)"
-                         (contextmenu)="onProjectRightClick($event, i)">
-                         <label class="disabled-badge">
+                         (contextmenu)="onProjectRightClick($event, i)"
+                         (click)="updateActiveProject(project.id)">
+                         <label *ngIf="project.id !== currentUser?.userDTO?.activeProjectId" class="disabled-badge">
                             Disabled
+                         </label>
+                         <label *ngIf="project.id === currentUser?.userDTO?.activeProjectId" class="active-badge">
+                            Active
                          </label>
                     </div>
                 </div>
@@ -54,7 +59,8 @@
                          (mouseleave)="onMouseLeave(i)"
                          (mousedown)="onMouseDown(i)"
                          (mouseup)="onMouseUp(i)"
-                         (contextmenu)="onProjectRightClick($event, i)">{{project.creationDate}}</div>
+                         (contextmenu)="onProjectRightClick($event, i)"
+                         (click)="updateActiveProject(project.id)">{{project.creationDate}}</div>
                 </div>
             </div>
             <div id="update-col" class="table-col-div">
@@ -70,27 +76,10 @@
                          (mouseleave)="onMouseLeave(i)"
                          (mousedown)="onMouseDown(i)"
                          (mouseup)="onMouseUp(i)"
-                         (contextmenu)="onProjectRightClick($event, i)">{{project.lastUpdateDate}}</div>
+                         (contextmenu)="onProjectRightClick($event, i)"
+                         (click)="updateActiveProject(project.id)">{{project.lastUpdateDate}}</div>
                 </div>
             </div>
-            <!-- <div class="table-col-div">
-                <div class="table-col-div-header"></div>
-                <div class="table-col-div-body">
-                    <div class="fake-content"></div>
-                </div>
-            </div>
-            <div class="table-col-div">
-                <div class="table-col-div-header"></div>
-                <div class="table-col-div-body"></div>
-            </div>
-            <div class="table-col-div">
-                <div class="table-col-div-header"></div>
-                <div class="table-col-div-body"></div>
-            </div>
-            <div class="table-col-div">
-                <div class="table-col-div-header"></div>
-                <div class="table-col-div-body"></div>
-            </div> -->
         </div>
     </div>
     <div class="footer-div">

@@ -48,6 +48,19 @@ export class SessionService {
 
   }
 
+  updateActiveProject(dto: TokenDTO){
+    console.log("SessionService.updateActiveProject(dto: TokenDTO)");
+    console.log("Http request: https://localhost:7241/api/User/updateActiveProject, dto");
+    console.log(dto);
+
+    this._currentUser.next(dto);
+
+    return this.http.post<TokenDTO>("https://localhost:7241/api/User/updateActiveProject", dto)
+    .pipe(tap((result: any) => {
+      console.log("Http request service: success");
+    }));
+  }
+
   logout() : void {
     this._currentUser.next(undefined);
     localStorage.removeItem("currentUser");

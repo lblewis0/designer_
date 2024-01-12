@@ -47,9 +47,7 @@ export class ProjectsComponent {
       next: (result: any) => {
         this.projects = result;
       }
-    })
-
-    
+    })  
   }
 
   addProject()
@@ -104,6 +102,25 @@ export class ProjectsComponent {
     })
   }
 
+  updateActiveProject(id: number){
+    console.log("");
+    console.log("ProjectComponent.updateActiveProject(id)");
+
+    let token: TokenDTO | undefined = this._sessionService.currentUser;
+
+    token!.userDTO.activeProjectId = id;
+
+    this._sessionService.updateActiveProject(token as TokenDTO).subscribe({
+      next: (result: any) => {
+        console.log("Http request component: success");
+      },
+      error: (error: any) => {
+        console.log(error);
+      }
+    })
+
+  }
+
   scrollEvent(elementScroll: string) : void
   {
     let scrollColumn = this.el.nativeElement.querySelector(elementScroll);
@@ -122,12 +139,8 @@ export class ProjectsComponent {
 
   onProjectRightClick(event: MouseEvent, projectIndex: number) : void {
     event.preventDefault();
-    this._projectService.activateContext();
-
-    const posX = event.clientX;
-    const posY = event.clientY;
-
-    console.log(`Project: ${projectIndex} Top: ${posY}px, Left: ${posX}`);
+    let id = this.projects![projectIndex].id;
+    this._projectService.activateContext(event.clientY, event.clientX, projectIndex);
   }
 
   onMouseEnter(index: number) : void

@@ -10,8 +10,7 @@
     align-items: center;
     background-color: $dark-1;
     border: 1px solid $dark-5;
-    padding-top: 0.3rem;
-    padding-bottom: 0.3rem;
+    padding: 0.3rem;
     border-radius: 0.3rem;
 
 }
@@ -36,11 +35,17 @@
     justify-content: flex-start;
     align-items: center;
     cursor: pointer;
+    border-radius: 0.25rem;
 }
 
 .element:hover
 {
-    background-color: $dark-2;
+    background-color: $dark-3;
+}
+
+.element:active
+{
+    background-color: $dark-4;
 }
 
 .element-withIcon
@@ -53,11 +58,17 @@
     align-items: center;
     cursor: pointer;
     padding-right: 0.5rem;
+    border-radius: 0.25rem;
 }
 
 .element-withIcon:hover
 {
-    background-color: $dark-2;
+    background-color: $dark-3;
+}
+
+.element-withIcon:active
+{
+    background-color: $dark-4;
 }
 
 .element-name

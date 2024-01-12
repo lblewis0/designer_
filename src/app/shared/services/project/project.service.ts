@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserDTO } from '../../models/DTO/userDTO';
 import { TokenDTO } from '../../models/DTO/tokenDTO';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { ProjectContext } from '../../models/models/projectContext';
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +13,13 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 export class ProjectService {
 
   private _projects: BehaviorSubject<ProjectDTO[] | undefined>
-  private _contextActive: BehaviorSubject<Boolean>
+  private _context: BehaviorSubject<ProjectContext | undefined>
 
   constructor(
     private readonly http: HttpClient
   ){  
     this._projects = new BehaviorSubject<ProjectDTO[] | undefined>(undefined);
-    this._contextActive = new BehaviorSubject<Boolean>(false);
+    this._context = new BehaviorSubject<ProjectContext | undefined>(undefined);
   }
 
   get projects(): ProjectDTO[] | undefined {
@@ -29,22 +30,38 @@ export class ProjectService {
     return this._projects.asObservable();
   }
 
-  get contextActive(): Boolean {
-    return this._contextActive.value;
+  get context(): ProjectContext | undefined{
+    return this._context.value;
   }
 
-  get contextActive$(): Observable<Boolean>{
-    return this._contextActive.asObservable();
+  get context$(): Observable<ProjectContext | undefined>{
+    return this._context.asObservable();
   }
 
-  activateContext()
+  activateContext(top: number, left: number, idProject: number)
   {
-    this._contextActive.next(true);
+    let newContext: ProjectContext = {
+      isActive: true,
+      top: top,
+      left: left,
+      projectId: idProject
+    }
+    this._context.next(newContext);
+    console.log("ProjectService.activateContext()");
+    console.log(this.context);
   }
 
   desactivateContext()
   {
-    this._contextActive.next(false);
+    let newContext: ProjectContext = {
+      isActive: false,
+      top: 0,
+      left: 0,
+      projectId: 0
+    }
+    this._context.next(newContext);
+    console.log("ProjectService.desactivateContext()");
+    console.log(this.context);
   }
 
   createProject(dto: ProjectDTO)

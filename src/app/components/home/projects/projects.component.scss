@@ -16,7 +16,7 @@
 
 .title-div
 {
-    height: fit-content;
+    min-height: 2.5rem;
     width: 100%;
     background-color: $dark-1;
     border-radius: 0.375rem;
@@ -39,7 +39,7 @@
 
 .table-div
 {
-    flex-grow: 1;
+    height: calc(100% - 4rem - 1rem - 1rem);
     width: fit-content;
     background-color: $dark-2;
     border-radius: 0.375rem;
@@ -55,7 +55,7 @@
 .table-table-div
 {
     width: fit-content;
-    flex-grow: 1;
+    height: 100%;
     background-color: $dark-1;
     display: flex;
     flex-direction: row;
@@ -65,6 +65,8 @@
     // border: 1px solid green;
 }
 
+
+
 .table-col-div
 {
     display: flex;
@@ -73,7 +75,7 @@
     align-items: flex-start;
     width: fit-content;
     height: 100%;
-    border: 1px solid yellow;
+    // border: 1px solid yellow;
 }
 
 #name-col
@@ -83,17 +85,17 @@
 
 #status-col
 {
-    width: 5rem;
+    width: 7rem;
 }
 
 #creation-col
 {
-    width: 9.4rem;
+    width: 10rem;
 }
 
 #update-col
 {
-    width: 10rem;
+    width: 10.6rem;
 }
 
 .table-col-div-header
@@ -102,21 +104,22 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    padding-left: 0.75rem;
+    padding-left: 1rem;
     padding-right: 0.75rem;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     font-size: 0.875rem;
     line-height: 1.25rem;
     color: $font-default;
-    // background-color: $dark-5;
-    border-bottom: 1px solid $font-default;
+    border-bottom: 1px solid $primary;
     width: calc(100% - 1.5rem);
+    height: 1.5rem;
 }
 
 #name-header
 {
     border-radius: 0.5rem 0 0 0;
+    padding-left: 0.75rem;
 }
 
 #update-header
@@ -133,9 +136,10 @@ $max-body-height: calc(($max-lines + 1) * 2.1rem);
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    height: $max-body-height;
+    height: calc(100% - 2rem);
     overflow-y: scroll;
     width: 100%;
+    padding-top: 0.2rem;
     // border: 1px solid green;
     // background-color: $background-color;
 }
@@ -151,9 +155,10 @@ $max-body-height: calc(($max-lines + 1) * 2.1rem);
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    height: $max-body-height;
+    height: calc(100% - 2rem);
     overflow-y: scroll;
     width: 100%;
+    padding-top: 0.2rem;
     // border: 1px solid green;
     // background-color: $background-color;
     border-radius: 0 0 0 0.375rem;
@@ -170,10 +175,11 @@ $max-body-height: calc(($max-lines + 1) * 2.1rem);
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    height: $max-body-height;
+    height: calc(100% - 2rem);
     overflow-y: scroll;
     scrollbar-width: thin;
     width: 100%;
+    padding-top: 0.2rem;
     // border: 1px solid magenta;
     // background-color: $background-color;
     border-radius: 0 0 0.375rem 0;
@@ -211,9 +217,60 @@ $max-body-height: calc(($max-lines + 1) * 2.1rem);
     font-size: 0.875rem;
     line-height: 1.25rem;
     border-bottom: 1px solid $dark-5;
+    border-top: 1px solid $dark-1;
     color: $font-default;
     width: 100%;
     box-sizing: border-box;
+    height: 3rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.table-col-div-body-element-fc
+{
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    border-bottom: 1px solid $dark-5;
+    border-top: 1px solid $dark-1;
+    border-left: 1px solid $dark-1;
+    color: $font-default;
+    width: 100%;
+    box-sizing: border-box;
+    height: 3rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+}
+
+.table-col-div-body-element-lc
+{
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    border-bottom: 1px solid $dark-5;
+    border-top: 1px solid $dark-1;
+    border-right: 1px solid $dark-1;
+    color: $font-default;
+    width: 100%;
+    box-sizing: border-box;
+    height: 3rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 }
 
 .table-col-div-body-element-hover
@@ -224,11 +281,66 @@ $max-body-height: calc(($max-lines + 1) * 2.1rem);
     padding-bottom: 0.5rem;
     font-size: 0.875rem;
     line-height: 1.25rem;
-    border-bottom: 1px solid $dark-5;
+    border-bottom: 1px solid $primary;
+    border-top: 1px solid $primary;
     color: $font-default;
     width: 100%;
     box-sizing: border-box;
     background-color: $dark-2;
+    height: 3rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.table-col-div-body-element-fc-hover
+{
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    border-bottom: 1px solid $primary;
+    border-top: 1px solid $primary;
+    border-left: 1px solid $primary;
+    color: $font-default;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: $dark-2;
+    height: 3rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 0.375rem 0 0 0.375rem;
+}
+
+.table-col-div-body-element-lc-hover
+{
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    border-bottom: 1px solid $primary;
+    border-top: 1px solid $primary;
+    border-right: 1px solid $primary;
+    color: $font-default;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: $dark-2;
+    height: 3rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 0 0.375rem 0.375rem 0;
 }
 
 .table-col-div-body-element-active
@@ -239,16 +351,115 @@ $max-body-height: calc(($max-lines + 1) * 2.1rem);
     padding-bottom: 0.5rem;
     font-size: 0.875rem;
     line-height: 1.25rem;
-    border-bottom: 1px solid $dark-5;
+    border-bottom: 1px solid $primary;
+    border-top: 1px solid $primary;
     color: $font-default;
     width: 100%;
     box-sizing: border-box;
     background-color: $dark-3;
+    height: 3rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.table-col-div-body-element-fc-active
+{
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    border-bottom: 1px solid $primary;
+    border-top: 1px solid $primary;
+    border-left: 1px solid $primary;
+    color: $font-default;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: $dark-3;
+    height: 3rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 0.375rem 0 0 0.375rem;
+}
+
+.table-col-div-body-element-lc-active
+{
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    border-bottom: 1px solid $primary;
+    border-top: 1px solid $primary;
+    border-right: 1px solid $primary;
+    color: $font-default;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: $dark-3;
+    height: 3rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 0 0.375rem 0.375rem 0;
+}
+
+.active-badge
+{
+    height: fit-content;
+    width: fit-content;
+    border: 1px solid $success;
+    border-radius: 0.375rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: $success;
+    background-color: $success-b;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.disabled-badge
+{
+    height: fit-content;
+    width: fit-content;
+    border: 1px solid $dark-5;
+    border-radius: 0.375rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: $dark-5;
+    background-color: $dark-2;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    box-sizing: border-box;
+    cursor: pointer;
 }
 
 .footer-div
 {
-    height: 1.75rem;
+    height: 2rem;
     width: 100%;
     background-color: $dark-1;
     border-radius: 0.375rem;
@@ -323,7 +534,7 @@ $max-body-height: calc(($max-lines + 1) * 2.1rem);
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    cursor:pointer;
+    cursor: pointer;
     color: $font-default;
     appearance: none;
     border: none;

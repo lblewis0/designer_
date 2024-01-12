@@ -11,6 +11,7 @@ import { SharedModule } from './shared/shared/shared/shared.module';
 import { ProjectsComponent } from './components/home/projects/projects.component';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { TestComponent } from './components/test/test.component';
+import { ContextMenuComponent } from './navigation/context-menu/context-menu.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { TestComponent } from './components/test/test.component';
     SidebarComponent,
     HomeComponent,
     ProjectsComponent,
-    TestComponent
+    TestComponent,
+    ContextMenuComponent
   ],
   imports: [
     BrowserModule,

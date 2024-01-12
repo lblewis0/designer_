@@ -16,7 +16,7 @@ export class ProjectsComponent {
 
   userId!: number | undefined;
   currentUser!: TokenDTO | undefined;
-  projects!: ProjectDTO[];
+  projects!: ProjectDTO[] | undefined;
 
   colElement: string[] = ['#scroll1','#scroll2','#scroll3','#scroll4'];
 
@@ -39,9 +39,17 @@ export class ProjectsComponent {
         this.currentUser = result;
         this.userId = this.currentUser?.userDTO?.id;
       }
-    })
+    });
 
     this.getProjects();
+
+    this._projectService.projects$.subscribe({
+      next: (result: any) => {
+        this.projects = result;
+      }
+    })
+
+    
   }
 
   addProject()
@@ -86,7 +94,7 @@ export class ProjectsComponent {
     console.log("ProjectComponent.getProjects()");
     this._projectService.getProjects(this.currentUser as TokenDTO).subscribe({
       next: (result: any) => {
-        console.log("Http request: success");
+        console.log("Http request component: success");
         this.projects = result;
         console.log(this.projects);
       },
@@ -110,6 +118,15 @@ export class ProjectsComponent {
       }
     }
 
+  }
+
+  onRightClick(event: MouseEvent, projectIndex: number) : void {
+    event.preventDefault();
+
+    const posX = event.clientX;
+    const posY = event.clientY;
+
+    console.log(`Project: ${projectIndex} Top: ${posY}px, Left: ${posX}`);
   }
 
   onMouseEnter(index: number) : void

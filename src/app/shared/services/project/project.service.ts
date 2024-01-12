@@ -12,11 +12,13 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 export class ProjectService {
 
   private _projects: BehaviorSubject<ProjectDTO[] | undefined>
+  private _contextActive: BehaviorSubject<Boolean>
 
   constructor(
     private readonly http: HttpClient
   ){  
     this._projects = new BehaviorSubject<ProjectDTO[] | undefined>(undefined);
+    this._contextActive = new BehaviorSubject<Boolean>(false);
   }
 
   get projects(): ProjectDTO[] | undefined {
@@ -25,6 +27,24 @@ export class ProjectService {
 
   get projects$(): Observable<ProjectDTO[] | undefined>{
     return this._projects.asObservable();
+  }
+
+  get contextActive(): Boolean {
+    return this._contextActive.value;
+  }
+
+  get contextActive$(): Observable<Boolean>{
+    return this._contextActive.asObservable();
+  }
+
+  activateContext()
+  {
+    this._contextActive.next(true);
+  }
+
+  desactivateContext()
+  {
+    this._contextActive.next(false);
   }
 
   createProject(dto: ProjectDTO)

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { SessionService } from './shared/services/authentification/session.service';
 import { TokenDTO } from './shared/models/DTO/tokenDTO';
 import { RouterOutlet } from '@angular/router';
+import { ProjectService } from './shared/services/project/project.service';
 
 @Component({
   selector: 'app-root',
@@ -14,12 +15,27 @@ export class AppComponent {
   connected!: boolean;
   currentUser!: TokenDTO | undefined;
 
-  constructor(private readonly _sessionService: SessionService){
+  projectContextMenuActive!: Boolean;
+
+  constructor(
+    private readonly _sessionService: SessionService,
+    private readonly _projectService: ProjectService){
     this._sessionService.currentUser$.subscribe({
       next: (result: any) => {
         this.currentUser = result;
         this.connected = !!this.currentUser;
       }
     })
+
+    this._projectService.contextActive$.subscribe({
+      next: (result: any) => {
+        this.projectContextMenuActive = result;
+      }
+    })
+  }
+
+  onProjectContextMouseLeave(){
+    console.log("AppComponent.onProjectContextMouseLeave()")
+    this._projectService.desactivateContext();
   }
 }

@@ -120,8 +120,9 @@ export class ProjectsComponent {
 
   }
 
-  onRightClick(event: MouseEvent, projectIndex: number) : void {
+  onProjectRightClick(event: MouseEvent, projectIndex: number) : void {
     event.preventDefault();
+    this._projectService.activateContext();
 
     const posX = event.clientX;
     const posY = event.clientY;

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ProjectService } from '../../shared/services/project/project.service';
 
 @Component({
   selector: 'app-context-menu',
@@ -6,5 +7,12 @@ import { Component } from '@angular/core';
   styleUrl: './context-menu.component.scss'
 })
 export class ContextMenuComponent {
+
+  constructor(private readonly _projectService: ProjectService){}
+
+  onContextMouseLeave(){
+    console.log("Context mouse leave");
+    this._projectService.desactivateContext();
+  }
 
 }

@@ -17,7 +17,7 @@
                         (mouseleave)="onMouseLeave(i)"
                         (mousedown)="onMouseDown(i)"
                         (mouseup)="onMouseUp(i)"
-                        (contextmenu)="onRightClick($event, i)">{{project.name}}
+                        (contextmenu)="onProjectRightClick($event, i)">{{project.name}}
                     </div>
                 </div>
             </div>
@@ -34,7 +34,7 @@
                          (mouseleave)="onMouseLeave(i)"
                          (mousedown)="onMouseDown(i)"
                          (mouseup)="onMouseUp(i)"
-                         (contextmenu)="onRightClick($event, i)">
+                         (contextmenu)="onProjectRightClick($event, i)">
                          <label class="disabled-badge">
                             Disabled
                          </label>
@@ -54,7 +54,7 @@
                          (mouseleave)="onMouseLeave(i)"
                          (mousedown)="onMouseDown(i)"
                          (mouseup)="onMouseUp(i)"
-                         (contextmenu)="onRightClick($event, i)">{{project.creationDate}}</div>
+                         (contextmenu)="onProjectRightClick($event, i)">{{project.creationDate}}</div>
                 </div>
             </div>
             <div id="update-col" class="table-col-div">
@@ -70,7 +70,7 @@
                          (mouseleave)="onMouseLeave(i)"
                          (mousedown)="onMouseDown(i)"
                          (mouseup)="onMouseUp(i)"
-                         (contextmenu)="onRightClick($event, i)">{{project.lastUpdateDate}}</div>
+                         (contextmenu)="onProjectRightClick($event, i)">{{project.lastUpdateDate}}</div>
                 </div>
             </div>
             <!-- <div class="table-col-div">

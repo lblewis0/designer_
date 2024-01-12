@@ -9,7 +9,10 @@
     justify-content: center;
     align-items: center;
     background-color: $dark-1;
-    border: 1px solid yellow;
+    border: 1px solid $dark-5;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+    border-radius: 0.3rem;
 
 }
 
@@ -21,6 +24,7 @@
     align-items: center;
     height: fit-content;
     width: 100%;
+    // border: 1px solid red;
 }
 
 .element
@@ -31,16 +35,29 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+    cursor: pointer;
+}
+
+.element:hover
+{
+    background-color: $dark-2;
 }
 
 .element-withIcon
 {
     height: fit-content;
-    width: 100%;
+    width: calc(100% - 0.5rem);
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+    cursor: pointer;
+    padding-right: 0.5rem;
+}
+
+.element-withIcon:hover
+{
+    background-color: $dark-2;
 }
 
 .element-name
@@ -54,6 +71,7 @@
     box-sizing: border-box;
     color: $font-default;
     flex-grow: 1;
+    cursor: pointer;
 }
 
 .element-name-icon
@@ -63,5 +81,6 @@
     width: 1.25rem;
     color: $error;
     fill: $error;
+    cursor: pointer;
 }
 

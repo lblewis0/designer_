@@ -36,16 +36,19 @@
     align-items: center;
     cursor: pointer;
     border-radius: 0.25rem;
+    border: 1px solid $dark-1;
 }
 
 .element:hover
 {
     background-color: $dark-3;
+    border: 1px solid $primary;
 }
 
 .element:active
 {
     background-color: $dark-4;
+    border: 1px solid $primary;
 }
 
 .element-withIcon
@@ -59,16 +62,19 @@
     cursor: pointer;
     padding-right: 0.5rem;
     border-radius: 0.25rem;
+    border: 1px solid $dark-1;
 }
 
 .element-withIcon:hover
 {
     background-color: $dark-3;
+    border: 1px solid $primary;
 }
 
 .element-withIcon:active
 {
     background-color: $dark-4;
+    border: 1px solid $primary;
 }
 
 .element-name

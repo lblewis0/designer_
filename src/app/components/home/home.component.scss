@@ -25,9 +25,21 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
+    // position: relative;
 }
 
 app-projects
 {
     height: 100%;
+}
+
+app-context-home
+{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba($dark-1, 0.8);
+    border-radius: 0.5rem;
 }

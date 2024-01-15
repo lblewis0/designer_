@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
 
-  test: Boolean = false;
+  test: Boolean = true;
 }

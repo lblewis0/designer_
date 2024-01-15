@@ -64,12 +64,13 @@ export class ProjectsComponent {
         lastUpdateDate: "",
         userId: 0
       }
+
       let dateCreation = new Date();
 
-      dto.name = this.projectForm.get('projectName')?.value;
+      dto.id = 0;
       dto.creationDate = dateCreation.toISOString();
       dto.lastUpdateDate = dateCreation.toISOString();
-      dto.userId = this.userId;
+      dto.userId = this.userId; 
 
       this._projectService.createProject(dto).subscribe({
         next: (result: any) => {

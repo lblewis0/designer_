@@ -1,7 +1,8 @@
 export interface Project {
+    id: number | undefined;
     name: string;
-    creationDate: Date;
-    lastUpdateDate: Date;
-    userId: number;
-    status: string;
+    creationDate: string;
+    lastUpdateDate: string;
+    userId: number | undefined;
+    isEditable: Boolean;
 }

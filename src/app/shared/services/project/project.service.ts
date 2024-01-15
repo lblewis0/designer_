@@ -6,6 +6,7 @@ import { UserDTO } from '../../models/DTO/userDTO';
 import { TokenDTO } from '../../models/DTO/tokenDTO';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { ProjectContext } from '../../models/models/projectContext';
+import { Project } from '../../models/models/project';
 
 @Injectable({
   providedIn: 'root'
@@ -57,7 +58,7 @@ export class ProjectService {
       isActive: false,
       top: 0,
       left: 0,
-      projectId: 0
+      projectId: this.context!.projectId
     }
     this._context.next(newContext);
     console.log("ProjectService.desactivateContext()");
@@ -81,6 +82,7 @@ export class ProjectService {
 
     return this.http.post<TokenDTO>("https://localhost:7241/api/Project/getProjects", token)
     .pipe(tap((result: any) => {
+
       this._projects.next(result);
       console.log("Http request service: success");
       console.log(result);

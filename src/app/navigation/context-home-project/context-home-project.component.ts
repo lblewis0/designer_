@@ -2,12 +2,11 @@ import { Component } from '@angular/core';
 import { ProjectService } from '../../shared/services/project/project.service';
 
 @Component({
-  selector: 'app-context-menu',
-  templateUrl: './context-menu.component.html',
-  styleUrl: './context-menu.component.scss'
+  selector: 'app-context-home-project',
+  templateUrl: './context-home-project.component.html',
+  styleUrl: './context-home-project.component.scss'
 })
-export class ContextMenuComponent {
-
+export class ContextHomeProjectComponent {
   constructor(private readonly _projectService: ProjectService){}
 
   onContextMouseLeave(){

@@ -19,9 +19,7 @@ export class ProjectsComponent {
   projects!: ProjectDTO[] | undefined;
 
   colElement: string[] = ['#scroll1','#scroll2','#scroll3','#scroll4'];
-
   hoverIndex: number | null = null;
-
   activeIndex: number | null = null;
 
   constructor(

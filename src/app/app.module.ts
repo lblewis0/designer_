@@ -10,10 +10,11 @@ import { HomeComponent } from './components/home/home.component';
 import { SharedModule } from './shared/shared/shared/shared.module';
 import { ProjectsComponent } from './components/home/projects/projects.component';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { TestComponent } from './components/test/test.component';
-import { ContextMenuComponent } from './navigation/context-menu/context-menu.component';
 import { ContextHomeComponent } from './components/home/context-home/context-home.component';
 import { ComponentsComponent } from './components/home/components/components.component';
+import { ContextHomeComponentFileComponent } from './navigation/context-home-component-file/context-home-component-file.component';
+import { ContextHomeComponentFolderComponent } from './navigation/context-home-component-folder/context-home-component-folder.component';
+import { ContextHomeProjectComponent } from './navigation/context-home-project/context-home-project.component';
 
 @NgModule({
   declarations: [
@@ -23,10 +24,11 @@ import { ComponentsComponent } from './components/home/components/components.com
     SidebarComponent,
     HomeComponent,
     ProjectsComponent,
-    TestComponent,
-    ContextMenuComponent,
     ContextHomeComponent,
-    ComponentsComponent
+    ComponentsComponent,
+    ContextHomeComponentFileComponent,
+    ContextHomeComponentFolderComponent,
+    ContextHomeProjectComponent
   ],
   imports: [
     BrowserModule,

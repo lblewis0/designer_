@@ -40,26 +40,26 @@ export class ProjectService {
 
   activateContext(top: number, left: number, idProject: number)
   {
-    let newContext: ProjectContext = {
+    let context: ProjectContext = {
       isActive: true,
       top: top,
       left: left,
       projectId: idProject
     }
-    this._context.next(newContext);
+    this._context.next(context);
     console.log("ProjectService.activateContext()");
     console.log(this.context);
   }
 
   desactivateContext()
   {
-    let newContext: ProjectContext = {
+    let context: ProjectContext = {
       isActive: false,
       top: 0,
       left: 0,
-      projectId: 0
+      projectId: this._context.value!.projectId
     }
-    this._context.next(newContext);
+    this._context.next(context);
     console.log("ProjectService.desactivateContext()");
     console.log(this.context);
   }

@@ -1,8 +1,16 @@
 <div class="main-div">
-  <app-context-menu *ngIf="projectContext?.isActive"
-                    (mouseleave)="onProjectContextMouseLeave()"
-                    [style.top.px]="projectContext?.top"
-                    [style.left.px]="projectContext?.left"></app-context-menu>
+  <app-context-home-project *ngIf="projectContext?.isActive"
+                            (mouseleave)="onProjectContextMouseLeave()"
+                            [style.top.px]="projectContext?.top"
+                            [style.left.px]="projectContext?.left"></app-context-home-project>
+  <app-context-home-component-folder *ngIf="componentContext?.isActive && componentContext?.type === 'folder'"
+                                     (mouseleave)="onComponentContextMouseLeave()"
+                                     [style.top.px]="componentContext?.top"
+                                     [style.left.px]="componentContext?.left"></app-context-home-component-folder>
+  <app-context-home-component-file *ngIf="componentContext?.isActive && componentContext?.type === 'file'"
+                                     (mouseleave)="onComponentContextMouseLeave()"
+                                     [style.top.px]="componentContext?.top"
+                                     [style.left.px]="componentContext?.left"></app-context-home-component-file>
   <div *ngIf="connected" class="main-top-div">
     <app-navbar></app-navbar>
   </div>

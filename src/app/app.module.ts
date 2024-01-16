@@ -13,6 +13,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { TestComponent } from './components/test/test.component';
 import { ContextMenuComponent } from './navigation/context-menu/context-menu.component';
 import { ContextHomeComponent } from './components/home/context-home/context-home.component';
+import { ComponentsComponent } from './components/home/components/components.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ContextHomeComponent } from './components/home/context-home/context-hom
     ProjectsComponent,
     TestComponent,
     ContextMenuComponent,
-    ContextHomeComponent
+    ContextHomeComponent,
+    ComponentsComponent
   ],
   imports: [
     BrowserModule,

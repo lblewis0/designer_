@@ -11,8 +11,12 @@ export class ContextMenuComponent {
   constructor(private readonly _projectService: ProjectService){}
 
   onContextMouseLeave(){
-    console.log("Context mouse leave");
+    console.log("ContextMenuComponent.onContextMouseLeave()");
     this._projectService.desactivateContext();
+  }
+
+  renameProject(){
+    console.log("ContextMenuComponent.onContextMouseLeave()")
   }
 
 }

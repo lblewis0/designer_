@@ -18,29 +18,16 @@ export class AppComponent {
   connected!: boolean;
   currentUser!: TokenDTO | undefined;
 
-  projectContext!: ProjectContext | undefined;
   componentContext!: ComponentContext | undefined;
 
   constructor(
     private readonly _sessionService: SessionService,
-    private readonly _projectService: ProjectService,
+    public _projectService: ProjectService,
     private readonly _componentService: ComponentService){
     this._sessionService.currentUser$.subscribe({
       next: (result: any) => {
         this.currentUser = result;
         this.connected = !!this.currentUser;
-      }
-    })
-
-    this._projectService.context$.subscribe({
-      next: (result: any) => {
-        this.projectContext = result;
-      }
-    })
-
-    this._componentService.context$.subscribe({
-      next: (result: any) => {
-        this.componentContext = result;
       }
     })
   }

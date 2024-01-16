@@ -1,8 +1,8 @@
 <div class="main-div">
-  <app-context-home-project *ngIf="projectContext?.isActive"
+  <app-context-home-project *ngIf="_projectService._context?.isActive"
                             (mouseleave)="onProjectContextMouseLeave()"
-                            [style.top.px]="projectContext?.top"
-                            [style.left.px]="projectContext?.left"></app-context-home-project>
+                            [style.top.px]="_projectService._context?.top"
+                            [style.left.px]="_projectService._context?.left"></app-context-home-project>
   <app-context-home-component-folder *ngIf="componentContext?.isActive && componentContext?.type === 'folder'"
                                      (mouseleave)="onComponentContextMouseLeave()"
                                      [style.top.px]="componentContext?.top"

@@ -9,7 +9,7 @@
                     Name
                 </div>
                 <div id="scroll1" class="table-col-div-body-first" #scroll1 (scroll)="scrollEvent('#scroll1')">
-                    <div *ngFor="let project of projects; let i=index"
+                    <div *ngFor="let project of _projectService._projects; let i=index"
                         [ngClass]="{'table-col-div-body-element-fc': hoverIndex !== i && activeIndex !== i,
                                     'table-col-div-body-element-fc-hover' : hoverIndex === i && activeIndex !== i,
                                     'table-col-div-body-element-fc-active' : activeIndex === i}"  
@@ -27,7 +27,7 @@
                     Status
                 </div>
                 <div id="scroll2" class="table-col-div-body" #scroll2 (scroll)="scrollEvent('#scroll2')">
-                    <div *ngFor="let project of projects; let i=index" 
+                    <div *ngFor="let project of _projectService._projects; let i=index" 
                          [ngClass]="{'table-col-div-body-element': hoverIndex !== i,
                                      'table-col-div-body-element-hover' : hoverIndex ===i,
                                      'table-col-div-body-element-active' : activeIndex === i}"
@@ -51,7 +51,7 @@
                     Created
                 </div>
                 <div id="scroll3" class="table-col-div-body" #scroll3 (scroll)="scrollEvent('#scroll3')">
-                    <div *ngFor="let project of projects; let i=index" 
+                    <div *ngFor="let project of _projectService._projects; let i=index" 
                          [ngClass]="{'table-col-div-body-element': hoverIndex !== i,
                                      'table-col-div-body-element-hover' : hoverIndex ===i,
                                      'table-col-div-body-element-active' : activeIndex === i}"
@@ -68,7 +68,7 @@
                     Updated
                 </div>
                 <div id="scroll4" class="table-col-div-body-last" #scroll4 (scroll)="scrollEvent('#scroll4')">
-                    <div *ngFor="let project of projects; let i=index" 
+                    <div *ngFor="let project of _projectService._projects; let i=index" 
                          [ngClass]="{'table-col-div-body-element-lc': hoverIndex !== i,
                                      'table-col-div-body-element-lc-hover' : hoverIndex ===i,
                                      'table-col-div-body-element-lc-active' : activeIndex === i}"
@@ -92,7 +92,7 @@
             </form>
         </div>
         <div class="footer-right-div">
-            <label class="label-projects">{{projects?.length}} Projects</label>
+            <label class="label-projects">{{_projectService._projects?.length}} Projects</label>
         </div>
     </div>
 </div>

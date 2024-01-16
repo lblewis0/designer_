@@ -14,38 +14,21 @@ export class ProjectsComponent {
 
   projectForm!: FormGroup;
 
-  userId!: number | undefined;
-  currentUser!: TokenDTO | undefined;
-  projects!: ProjectDTO[] | undefined;
-
   colElement: string[] = ['#scroll1','#scroll2','#scroll3','#scroll4'];
   hoverIndex: number | null = null;
   activeIndex: number | null = null;
 
   constructor(
     private _formBuilder: FormBuilder, 
-    private _projectService: ProjectService,
-    private _sessionService: SessionService,
+    public _projectService: ProjectService,
+    public _sessionService: SessionService,
     private el: ElementRef
   ){
     this.projectForm = this._formBuilder.group({
       projectName: [null, [Validators.required]]
     });
 
-    this._sessionService.currentUser$.subscribe({
-      next: (result: any) => {
-        this.currentUser = result;
-        this.userId = this.currentUser?.userDTO?.id;
-      }
-    });
-
     this.getProjects();
-
-    this._projectService.projects$.subscribe({
-      next: (result: any) => {
-        this.projects = result;
-      }
-    })  
   }
 
   addProject()
@@ -69,15 +52,7 @@ export class ProjectsComponent {
       dto.lastUpdateDate = dateCreation.toISOString();
       dto.userId = this.userId;
 
-      this._projectService.createProject(dto).subscribe({
-        next: (result: any) => {
-          console.log("Http request: success");
-          this.getProjects()
-        },
-        error: (error: any) => {
-          console.log(error);
-        }
-      });
+      this._projectService.createProject(dto);
     }
     else{
       console.log("-!this.projectForm.valid");
@@ -88,16 +63,7 @@ export class ProjectsComponent {
   getProjects(){
     console.log("");
     console.log("ProjectComponent.getProjects()");
-    this._projectService.getProjects(this.currentUser as TokenDTO).subscribe({
-      next: (result: any) => {
-        console.log("Http request component: success");
-        this.projects = result;
-        console.log(this.projects);
-      },
-      error: (error: any) => {
-        console.log(error);
-      }
-    })
+    this._projectService.getProjects(this.currentUser as TokenDTO);
   }
 
   updateActiveProject(id: number){
@@ -137,7 +103,7 @@ export class ProjectsComponent {
 
   onProjectRightClick(event: MouseEvent, projectIndex: number) : void {
     event.preventDefault();
-    let id = this.projects![projectIndex].id;
+    let id = this._projectService._projects![projectIndex].id;
     this._projectService.activateContext(event.clientY, event.clientX, projectIndex);
   }
 

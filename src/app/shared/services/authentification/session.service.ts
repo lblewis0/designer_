@@ -11,25 +11,16 @@ import { ErrorMessageDTO } from '../../models/DTO/errorMessageDTO';
 })
 export class SessionService {
 
-  private _currentUser: BehaviorSubject<TokenDTO | undefined>
+  public _currentUser: TokenDTO | undefined;
+  public _userId: number | undefined;
 
   constructor(private readonly http: HttpClient, private router: Router) 
-  {
-    this._currentUser = new BehaviorSubject<TokenDTO | undefined>(undefined);
-    
+  {   
     let json = localStorage.getItem("currentUser");
     if(json)
     {
-      this._currentUser.next(JSON.parse(json));
+      this._currentUser = JSON.parse(json);
     }
-  }
-
-  get currentUser(): TokenDTO | undefined {
-    return this._currentUser.value;
-  }
-
-  get currentUser$() : Observable<TokenDTO | undefined>{
-    return this._currentUser.asObservable();
   }
 
   login(dto: LoginDTO) {
@@ -38,13 +29,13 @@ export class SessionService {
     console.log("Http request: https://localhost:7241/api/Authentification/login, dto");
     console.log(dto);
 
-    return this.http.post<TokenDTO>("https://localhost:7241/api/Authentification/login", dto)
-    .pipe(tap((tokenDTO: TokenDTO) => {
-      this._currentUser.next(tokenDTO);
+    this.http.post<TokenDTO>("https://localhost:7241/api/Authentification/login", dto)
+    .subscribe((tokenDTO: TokenDTO) => {
+      this._currentUser = tokenDTO;
       localStorage.setItem("currentUser", JSON.stringify(tokenDTO));
       console.log("Http request: success");
       console.log(tokenDTO);
-    }));
+    });
 
   }
 
@@ -53,16 +44,16 @@ export class SessionService {
     console.log("Http request: https://localhost:7241/api/User/updateActiveProject, dto");
     console.log(dto);
 
-    this._currentUser.next(dto);
+    this._currentUser = dto;
 
-    return this.http.post<TokenDTO>("https://localhost:7241/api/User/updateActiveProject", dto)
-    .pipe(tap((result: any) => {
+    this.http.post<TokenDTO>("https://localhost:7241/api/User/updateActiveProject", dto)
+    .subscribe((result: any) => {
       console.log("Http request service: success");
-    }));
+    });
   }
 
   logout() : void {
-    this._currentUser.next(undefined);
+    this._currentUser = undefined;
     localStorage.removeItem("currentUser");
     this.router.navigate(["login"]);
   }

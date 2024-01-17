@@ -1,0 +1,139 @@
+@import '../../shared/styles/colors.scss';
+
+.c-main-div
+{
+    height: fit-content;
+    width: 15rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: $dark-1;
+    border: 1px solid $dark-5;
+    padding: 0.3rem;
+    border-radius: 0.3rem;
+
+}
+
+.family-div-first
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+    width: 100%;
+    border-bottom: 1px solid $dark-5;
+    // border: 1px solid red;
+}
+
+.family-div
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+    width: 100%;
+    border-bottom: 1px solid $dark-5;
+    // border: 1px solid red;
+}
+
+.family-div-last
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+    width: 100%;
+    // border: 1px solid red;
+}
+
+.element
+{
+    height: fit-content;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    border: 1px solid $dark-1;
+}
+
+.element:hover
+{
+    background-color: $dark-3;
+    border: 1px solid $primary;
+}
+
+.element:active
+{
+    background-color: $dark-4;
+    border: 1px solid $primary;
+}
+
+.element-withIcon
+{
+    height: fit-content;
+    width: calc(100% - 0.5rem);
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+    padding-right: 0.5rem;
+    border-radius: 0.25rem;
+    border: 1px solid $dark-1;
+}
+
+.element-withIcon:hover
+{
+    background-color: $dark-3;
+    border: 1px solid $primary;
+}
+
+.element-withIcon:active
+{
+    background-color: $dark-4;
+    border: 1px solid $primary;
+}
+
+.element-name
+{
+    line-height: 1.25rem;
+    font-size: 0.875rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    box-sizing: border-box;
+    color: $font-default;
+    flex-grow: 1;
+    cursor: pointer;
+}
+
+.element-name-icon
+{
+    box-sizing: border-box;
+    height: 1.25rem;
+    width: 1.25rem;
+    color: $dark-5;
+    fill: $dark-5;
+    cursor: pointer;
+}
+
+#delete-icon
+{
+    fill: $error;
+}
+
+#edit-icon
+{
+    fill: $success;
+}
+
+
+

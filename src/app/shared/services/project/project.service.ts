@@ -13,56 +13,41 @@ import { Project } from '../../models/models/project';
 })
 export class ProjectService {
 
-  private _projects: BehaviorSubject<ProjectDTO[] | undefined>
-  private _context: BehaviorSubject<ProjectContext | undefined>
+  public _projects: ProjectDTO[] | undefined;
+  public _context: ProjectContext | undefined;
 
   constructor(
     private readonly http: HttpClient
   ){  
-    this._projects = new BehaviorSubject<ProjectDTO[] | undefined>(undefined);
-    this._context = new BehaviorSubject<ProjectContext | undefined>(undefined);
-  }
-
-  get projects(): ProjectDTO[] | undefined {
-    return this._projects.value;
-  }
-
-  get projects$(): Observable<ProjectDTO[] | undefined>{
-    return this._projects.asObservable();
-  }
-
-  get context(): ProjectContext | undefined{
-    return this._context.value;
-  }
-
-  get context$(): Observable<ProjectContext | undefined>{
-    return this._context.asObservable();
+    
   }
 
   activateContext(top: number, left: number, idProject: number)
   {
-    let newContext: ProjectContext = {
+    let context: ProjectContext = {
       isActive: true,
       top: top,
       left: left,
       projectId: idProject
     }
-    this._context.next(newContext);
+
+    this._context = context;
     console.log("ProjectService.activateContext()");
-    console.log(this.context);
+    console.log(this._context);
   }
 
   desactivateContext()
   {
-    let newContext: ProjectContext = {
+    let context: ProjectContext = {
       isActive: false,
       top: 0,
       left: 0,
-      projectId: this.context!.projectId
+      projectId: this._context!.projectId
     }
-    this._context.next(newContext);
+
+    this._context = context;
     console.log("ProjectService.desactivateContext()");
-    console.log(this.context);
+    console.log(this._context);
   }
 
   createProject(dto: ProjectDTO)
@@ -71,7 +56,7 @@ export class ProjectService {
     console.log("Http request: https://localhost:7241/api/Project/createProject, dto");
     console.log(dto);
 
-    return this.http.post<ProjectDTO>("https://localhost:7241/api/Project/createProject", dto);
+    this.http.post<ProjectDTO>("https://localhost:7241/api/Project/createProject", dto);
   }
 
   getProjects(token: TokenDTO | undefined)
@@ -82,10 +67,9 @@ export class ProjectService {
 
     return this.http.post<TokenDTO>("https://localhost:7241/api/Project/getProjects", token)
     .pipe(tap((result: any) => {
-
       this._projects.next(result);
       console.log("Http request service: success");
-      console.log(result);
-    }));
+      console.log(this._projects);
+    });
   }
 }

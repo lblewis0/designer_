@@ -4,6 +4,8 @@ import { TokenDTO } from './shared/models/DTO/tokenDTO';
 import { RouterOutlet } from '@angular/router';
 import { ProjectService } from './shared/services/project/project.service';
 import { ProjectContext } from './shared/models/models/projectContext';
+import { ComponentService } from './shared/services/component/component.service';
+import { ComponentContext } from './shared/models/models/componentContext';
 
 @Component({
   selector: 'app-root',
@@ -16,21 +18,16 @@ export class AppComponent {
   connected!: boolean;
   currentUser!: TokenDTO | undefined;
 
-  projectContext!: ProjectContext | undefined;
+  componentContext!: ComponentContext | undefined;
 
   constructor(
     private readonly _sessionService: SessionService,
-    private readonly _projectService: ProjectService){
+    public _projectService: ProjectService,
+    private readonly _componentService: ComponentService){
     this._sessionService.currentUser$.subscribe({
       next: (result: any) => {
         this.currentUser = result;
         this.connected = !!this.currentUser;
-      }
-    })
-
-    this._projectService.context$.subscribe({
-      next: (result: any) => {
-        this.projectContext = result;
       }
     })
   }
@@ -38,5 +35,10 @@ export class AppComponent {
   onProjectContextMouseLeave(){
     console.log("AppComponent.onProjectContextMouseLeave()")
     this._projectService.desactivateContext();
+  }
+
+  onComponentContextMouseLeave(){
+    console.log("AppComponent.onComponentContextMouseLeave()")
+    this._componentService.desactivateContext();
   }
 }

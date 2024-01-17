@@ -12,7 +12,19 @@
     position: relative;
 }
 
-app-context-menu
+app-context-home-project
+{
+    position: absolute;
+    transform: translateX(-1rem);
+}
+
+app-context-home-component-folder
+{
+    position: absolute;
+    transform: translateX(-1rem);
+}
+
+app-context-home-component-file
 {
     position: absolute;
     transform: translateX(-1rem);

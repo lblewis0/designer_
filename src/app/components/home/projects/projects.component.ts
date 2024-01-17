@@ -51,7 +51,7 @@ export class ProjectsComponent {
       dto.id = 0;
       dto.creationDate = dateCreation.toISOString();
       dto.lastUpdateDate = dateCreation.toISOString();
-      dto.userId = this.userId; 
+      dto.userId = this._sessionService._userId; 
 
       this._projectService.createProject(dto);
     }
@@ -64,25 +64,18 @@ export class ProjectsComponent {
   getProjects(){
     console.log("");
     console.log("ProjectComponent.getProjects()");
-    this._projectService.getProjects(this.currentUser as TokenDTO);
+    this._projectService.getProjects(this._sessionService._currentUser as TokenDTO);
   }
 
   updateActiveProject(id: number){
     console.log("");
     console.log("ProjectComponent.updateActiveProject(id)");
 
-    let token: TokenDTO | undefined = this._sessionService.currentUser;
+    let token: TokenDTO | undefined = this._sessionService._currentUser;
 
     token!.userDTO.activeProjectId = id;
 
-    this._sessionService.updateActiveProject(token as TokenDTO).subscribe({
-      next: (result: any) => {
-        console.log("Http request component: success");
-      },
-      error: (error: any) => {
-        console.log(error);
-      }
-    })
+    this._sessionService.updateActiveProject(token as TokenDTO);
 
   }
 

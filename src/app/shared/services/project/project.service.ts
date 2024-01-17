@@ -18,9 +18,7 @@ export class ProjectService {
 
   constructor(
     private readonly http: HttpClient
-  ){  
-    
-  }
+  ){}
 
   activateContext(top: number, left: number, idProject: number)
   {
@@ -66,8 +64,8 @@ export class ProjectService {
     console.log(token);
 
     return this.http.post<TokenDTO>("https://localhost:7241/api/Project/getProjects", token)
-    .pipe(tap((result: any) => {
-      this._projects.next(result);
+    .subscribe((result: any) => {
+      this._projects = result;
       console.log("Http request service: success");
       console.log(this._projects);
     });

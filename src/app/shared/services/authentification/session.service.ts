@@ -13,6 +13,9 @@ export class SessionService {
 
   public _currentUser: TokenDTO | undefined;
   public _userId: number | undefined;
+  public _isConnected!: Boolean;
+  public _usernameValid = true;
+  public _passwordValid = true;
 
   constructor(private readonly http: HttpClient, private router: Router) 
   {   
@@ -30,11 +33,34 @@ export class SessionService {
     console.log(dto);
 
     this.http.post<TokenDTO>("https://localhost:7241/api/Authentification/login", dto)
-    .subscribe((tokenDTO: TokenDTO) => {
-      this._currentUser = tokenDTO;
-      localStorage.setItem("currentUser", JSON.stringify(tokenDTO));
-      console.log("Http request: success");
-      console.log(tokenDTO);
+    .subscribe({
+      next: (tokenDTO: TokenDTO) => {
+        this._currentUser = tokenDTO;
+        this._isConnected = true;
+        this._userId = tokenDTO.userDTO.id;
+        this._usernameValid = true;
+        this._passwordValid = true;
+        localStorage.setItem("currentUser", JSON.stringify(tokenDTO));
+        console.log("Http request: success");
+        console.log(tokenDTO);
+        this.router.navigate(["home"]);
+      },
+      error: (error: any) => {
+        let errorMessage: ErrorMessageDTO = error.error;
+        console.log("Http error: " + errorMessage.message);
+
+          this._usernameValid = true;
+          this._passwordValid = true;
+          
+          if(errorMessage.message === "userNotFound"){
+          this._usernameValid = false;
+          }
+
+          if(errorMessage.message === "wrongPassword"){
+          this._passwordValid = false;
+          }
+
+      }   
     });
 
   }
@@ -54,6 +80,8 @@ export class SessionService {
 
   logout() : void {
     this._currentUser = undefined;
+    this._isConnected = false;
+    this._userId = undefined;
     localStorage.removeItem("currentUser");
     this.router.navigate(["login"]);
   }

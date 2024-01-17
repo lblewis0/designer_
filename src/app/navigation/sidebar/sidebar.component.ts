@@ -9,11 +9,6 @@ import { SessionService } from '../../shared/services/authentification/session.s
 })
 export class SidebarComponent {
 
-  connected!: boolean;
-  status!: string;
-  username!: string | undefined;
-  currentUser!: TokenDTO | undefined;
-
   buttons: any[] = [
     {
       route: '/home',
@@ -41,17 +36,7 @@ export class SidebarComponent {
     }
   ]
 
-  constructor(private readonly _sessionService: SessionService){
-    this._sessionService.currentUser$.subscribe({
-      next: (result: any) => {
-        this.currentUser = result;
-        this.connected = true;
-        this.status = "Connected";
-        this.username = this.currentUser?.userDTO?.username;
-      }
-    });
-
-  }
+  constructor(public _sessionService: SessionService){}
 
   onClickSidebarButtons(index: number) : void
   {

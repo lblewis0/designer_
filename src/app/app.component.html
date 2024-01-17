@@ -3,20 +3,20 @@
                             (mouseleave)="onProjectContextMouseLeave()"
                             [style.top.px]="_projectService._context?.top"
                             [style.left.px]="_projectService._context?.left"></app-context-home-project>
-  <app-context-home-component-folder *ngIf="componentContext?.isActive && componentContext?.type === 'folder'"
+  <app-context-home-component-folder *ngIf="_componentService._context?.isActive && _componentService._context?.type === 'folder'"
                                      (mouseleave)="onComponentContextMouseLeave()"
-                                     [style.top.px]="componentContext?.top"
-                                     [style.left.px]="componentContext?.left"></app-context-home-component-folder>
-  <app-context-home-component-file *ngIf="componentContext?.isActive && componentContext?.type === 'file'"
+                                     [style.top.px]="_componentService._context?.top"
+                                     [style.left.px]="_componentService._context?.left"></app-context-home-component-folder>
+  <app-context-home-component-file *ngIf="_componentService._context?.isActive && _componentService._context?.type === 'file'"
                                      (mouseleave)="onComponentContextMouseLeave()"
-                                     [style.top.px]="componentContext?.top"
-                                     [style.left.px]="componentContext?.left"></app-context-home-component-file>
-  <div *ngIf="connected" class="main-top-div">
+                                     [style.top.px]="_componentService._context?.top"
+                                     [style.left.px]="_componentService._context?.left"></app-context-home-component-file>
+  <div *ngIf="_sessionService._isConnected" class="main-top-div">
     <app-navbar></app-navbar>
   </div>
-  <div [ngClass]="{'main-bottom-div': connected,
-                   'main-bottom-div-active' : !connected}">
-    <div *ngIf="connected" class="second-left-div">
+  <div [ngClass]="{'main-bottom-div': _sessionService._isConnected,
+                   'main-bottom-div-active' : !_sessionService._isConnected}">
+    <div *ngIf="_sessionService._isConnected" class="second-left-div">
       <app-sidebar></app-sidebar>
     </div>
     <div class="second-right-div">

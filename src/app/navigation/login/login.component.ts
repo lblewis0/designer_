@@ -15,13 +15,9 @@ export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
 
-  usernameValid: boolean = true;
-  passwordValid: boolean = true;
-
   constructor(
     private _formBuilder: FormBuilder,
-    private _sessionService: SessionService,
-    private _router: Router
+    public _sessionService: SessionService
   ){
     this.loginForm = this._formBuilder.group({
       username: [null, [Validators.required]],
@@ -41,29 +37,7 @@ export class LoginComponent implements OnInit {
       console.log("-this.loginForm.valid");
       let dto: LoginDTO = this.loginForm.value;
       
-      this._sessionService.login(dto).subscribe({
-        next: (result: TokenDTO) => {
-          this.usernameValid = true;
-          this.passwordValid = true;
-          this._router.navigate(["home"]);
-        },
-        error: (error: any) => {
-          let errorMesssage: ErrorMessageDTO = error.error;
-          console.log("Http error: " + errorMesssage.message);
-
-          this.usernameValid = true;
-          this.passwordValid = true;
-          
-          if(errorMesssage.message === "userNotFound"){
-          this.usernameValid = false;
-          }
-
-          if(errorMesssage.message === "wrongPassword"){
-          this.passwordValid = false;
-          }
-        }
-      });
-
+      this._sessionService.login(dto);
     }
     else
     {

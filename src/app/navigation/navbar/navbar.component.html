@@ -23,7 +23,7 @@
     <div class="center-div"></div>
     <div class="right-div">
         <div class="status-bar">
-            <label class="user-label">{{currentUser?.userDTO?.firstname}} {{currentUser?.userDTO?.lastname}}</label>
+            <label class="user-label">{{_sessionService._currentUser?.userDTO?.firstname}} {{_sessionService._currentUser?.userDTO?.lastname}}</label>
             <button class="logout-button" (click)="logout()">
                 <svg class="logout-button-icon" 
                      xmlns="http://www.w3.org/2000/svg"

@@ -37,10 +37,10 @@
                          (mouseup)="onMouseUp(i)"
                          (contextmenu)="onProjectRightClick($event, i)"
                          (click)="updateActiveProject(project.id)">
-                         <label *ngIf="project.id !== currentUser?.userDTO?.activeProjectId" class="disabled-badge">
+                         <label *ngIf="project.id !== _sessionService._currentUser?.userDTO?.activeProjectId" class="disabled-badge">
                             Disabled
                          </label>
-                         <label *ngIf="project.id === currentUser?.userDTO?.activeProjectId" class="active-badge">
+                         <label *ngIf="project.id === _sessionService._currentUser?.userDTO?.activeProjectId" class="active-badge">
                             Active
                          </label>
                     </div>

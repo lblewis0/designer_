@@ -3,21 +3,21 @@
         <form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <div class="input-div">
                 <label for="input" class="input-label">Username</label>
-                <input [ngClass]="{'input' : usernameValid, 
-                                   'input-invalid' : !usernameValid}" 
+                <input [ngClass]="{'input' : _sessionService._usernameValid, 
+                                   'input-invalid' : !_sessionService._usernameValid}" 
                        type="text" 
                        placeholder="Username" 
                        formControlName="username">
-                <span *ngIf="!usernameValid" class="error-message">Username doesn't exist</span>
+                <span *ngIf="!_sessionService._usernameValid" class="error-message">Username doesn't exist</span>
             </div>
             <div class="input-div">
                 <label for="input" class="input-label">Password</label>
-                <input [ngClass]="{'input' : passwordValid, 
-                                   'input-invalid' : !passwordValid}" 
+                <input [ngClass]="{'input' : _sessionService._passwordValid, 
+                                   'input-invalid' : !_sessionService._passwordValid}" 
                        type="password" 
                        placeholder="Password" 
                        formControlName="password">
-                <span *ngIf="!passwordValid" class="error-message">Wrong password</span>
+                <span *ngIf="!_sessionService._passwordValid" class="error-message">Wrong password</span>
             </div>
             <div class="button-div">
                 <button class="button" type="submit">

@@ -7,19 +7,9 @@ import { ComponentContext } from '../../models/models/componentContext';
 })
 export class ComponentService {
 
-  private _context: BehaviorSubject<ComponentContext | undefined>
+  public _context: ComponentContext | undefined;
 
-  constructor() { 
-    this._context = new BehaviorSubject<ComponentContext | undefined>(undefined);
-  }
-
-  get context(): ComponentContext | undefined{
-    return this._context.value;
-  }
-
-  get context$(): Observable<ComponentContext | undefined>{
-    return this._context.asObservable();
-  }
+  constructor() {}
 
   activeContext(top: number, left: number, idComponent: number, type: string){
     let context: ComponentContext = {
@@ -30,9 +20,9 @@ export class ComponentService {
       type: type
     }
 
-    this._context.next(context);
+    this._context = context;
     console.log("ComponentService.activeContext()");
-    console.log(this.context)
+    console.log(this._context)
   }
 
   desactivateContext()
@@ -41,11 +31,11 @@ export class ComponentService {
       isActive: false,
       top: 0,
       left: 0,
-      componentId: this._context.value!.componentId,
-      type: this._context.value!.type
+      componentId: this._context!.componentId,
+      type: this._context!.type
     }
-    this._context.next(context);
+    this._context = context;
     console.log("ComponentService.desactivateContext()");
-    console.log(this.context);
+    console.log(this._context);
   }
 }

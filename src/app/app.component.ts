@@ -21,16 +21,9 @@ export class AppComponent {
   componentContext!: ComponentContext | undefined;
 
   constructor(
-    private readonly _sessionService: SessionService,
+    public _sessionService: SessionService,
     public _projectService: ProjectService,
-    private readonly _componentService: ComponentService){
-    this._sessionService.currentUser$.subscribe({
-      next: (result: any) => {
-        this.currentUser = result;
-        this.connected = !!this.currentUser;
-      }
-    })
-  }
+    public _componentService: ComponentService){}
 
   onProjectContextMouseLeave(){
     console.log("AppComponent.onProjectContextMouseLeave()")

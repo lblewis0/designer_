@@ -8,31 +8,13 @@ import { TokenDTO } from '../../shared/models/DTO/tokenDTO';
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
-  connected!: boolean;
-  status!: string;
-  username!: string | undefined;
-  currentUser!: TokenDTO | undefined;
 
   route: string = 'Home/Projects';
   routeElement: string[] = this.route.split("/");
 
-  constructor(private readonly _sessionService: SessionService){
-    this._sessionService.currentUser$.subscribe({
-      next: (result: any) => {
-        this.currentUser = result;
-        this.connected = true;
-        this.status = "Connected";
-        this.username = this.currentUser?.userDTO?.username;
-      }
-    });
-
-  }
+  constructor(public _sessionService: SessionService){}
 
   logout(){
     this._sessionService.logout();
-    this.currentUser = undefined;
-    this.connected = false;
-    this.status = "Disconnected";
-    this.username = undefined;
   }
 }

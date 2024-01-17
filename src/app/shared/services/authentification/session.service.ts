@@ -23,6 +23,8 @@ export class SessionService {
     if(json)
     {
       this._currentUser = JSON.parse(json);
+      this._isConnected = true;
+      this._userId = this._currentUser?.userDTO.id;
     }
   }
 

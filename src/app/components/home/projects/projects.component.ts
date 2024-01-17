@@ -43,17 +43,20 @@ export class ProjectsComponent {
         name: "",
         creationDate: "",
         lastUpdateDate: "",
-        userId: 0
+        userId: 0,
+        isEditable: false
       }
 
       let dateCreation = new Date();
 
       dto.id = 0;
+      dto.name = this.projectForm.get('projectName')?.value;
       dto.creationDate = dateCreation.toISOString();
       dto.lastUpdateDate = dateCreation.toISOString();
       dto.userId = this._sessionService._userId; 
 
       this._projectService.createProject(dto);
+      this.projectForm.get('projectName')?.setValue(null);
     }
     else{
       console.log("-!this.projectForm.valid");

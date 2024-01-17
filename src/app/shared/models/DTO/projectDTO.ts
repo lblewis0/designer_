@@ -4,4 +4,5 @@ export interface ProjectDTO {
     creationDate: string;
     lastUpdateDate: string;
     userId: number | undefined;
+    isEditable: Boolean;
 }

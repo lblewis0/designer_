@@ -7,6 +7,7 @@ import { TokenDTO } from '../../models/DTO/tokenDTO';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { ProjectContext } from '../../models/models/projectContext';
 import { Project } from '../../models/models/project';
+import { SessionService } from '../authentification/session.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,8 @@ export class ProjectService {
   public _context: ProjectContext | undefined;
 
   constructor(
-    private readonly http: HttpClient
+    private readonly http: HttpClient,
+    public _sessionService: SessionService
   ){}
 
   activateContext(top: number, left: number, idProject: number)
@@ -54,7 +56,15 @@ export class ProjectService {
     console.log("Http request: https://localhost:7241/api/Project/createProject, dto");
     console.log(dto);
 
-    this.http.post<ProjectDTO>("https://localhost:7241/api/Project/createProject", dto);
+    this.http.post<ProjectDTO>("https://localhost:7241/api/Project/createProject", dto).subscribe({
+      next: (result: any) => {
+        console.log("Http request service: success");
+        this.getProjects(this._sessionService._currentUser);
+        this._sessionService._currentUser!.userDTO = result;
+        console.log(result);
+      }
+    })
+
   }
 
   getProjects(token: TokenDTO | undefined)
@@ -63,7 +73,7 @@ export class ProjectService {
     console.log("Http request: https://localhost:7241/api/Project/getProjects, token");
     console.log(token);
 
-    return this.http.post<TokenDTO>("https://localhost:7241/api/Project/getProjects", token)
+    this.http.post<TokenDTO>("https://localhost:7241/api/Project/getProjects", token)
     .subscribe((result: any) => {
       this._projects = result;
       console.log("Http request service: success");

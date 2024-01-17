@@ -1,7 +1,7 @@
 <div class="c-main-div">
     <div class="content-div">
         <app-projects></app-projects>
-        <app-context-home *ngIf="test"></app-context-home>
+        <app-context-home *ngIf="_projectService._deleteWarning"></app-context-home>
         <app-components></app-components>
     </div> 
 </div>

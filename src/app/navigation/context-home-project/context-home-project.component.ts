@@ -7,7 +7,7 @@ import { ProjectService } from '../../shared/services/project/project.service';
   styleUrl: './context-home-project.component.scss'
 })
 export class ContextHomeProjectComponent {
-  constructor(private readonly _projectService: ProjectService){}
+  constructor(public _projectService: ProjectService){}
 
   onContextMouseLeave(){
     console.log("ContextMenuComponent.onContextMouseLeave()");
@@ -15,7 +15,15 @@ export class ContextHomeProjectComponent {
   }
 
   renameProject(){
-    console.log("ContextMenuComponent.onContextMouseLeave()")
+    console.log("ContextMenuComponent.renameProject()")
+    this._projectService._context!.isActive = false;
+    this._projectService._projects![this._projectService._context!.projectId].isEditable = true;
+  }
+
+  deleteProject(){
+    console.log("ContextMenuComponent.renameProject()");
+    this._projectService._context!.isActive = false;
+    this._projectService._deleteWarning = true;
   }
 
 }

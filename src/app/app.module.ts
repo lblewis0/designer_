@@ -15,6 +15,7 @@ import { ComponentsComponent } from './components/home/components/components.com
 import { ContextHomeComponentFileComponent } from './navigation/context-home-component-file/context-home-component-file.component';
 import { ContextHomeComponentFolderComponent } from './navigation/context-home-component-folder/context-home-component-folder.component';
 import { ContextHomeProjectComponent } from './navigation/context-home-project/context-home-project.component';
+import { AutoFocusDirective } from './shared/directives/auto-focus.directive';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { ContextHomeProjectComponent } from './navigation/context-home-project/c
     ComponentsComponent,
     ContextHomeComponentFileComponent,
     ContextHomeComponentFolderComponent,
-    ContextHomeProjectComponent
+    ContextHomeProjectComponent,
+    AutoFocusDirective
   ],
   imports: [
     BrowserModule,

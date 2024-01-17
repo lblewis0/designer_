@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProjectDTO } from '../../../shared/models/DTO/projectDTO';
 import { SessionService } from '../../../shared/services/authentification/session.service';
 import { TokenDTO } from '../../../shared/models/DTO/tokenDTO';
+import { AutoFocusDirective } from '../../../shared/directives/auto-focus.directive';
 
 @Component({
   selector: 'app-projects',
@@ -13,6 +14,8 @@ import { TokenDTO } from '../../../shared/models/DTO/tokenDTO';
 export class ProjectsComponent {
 
   projectForm!: FormGroup;
+  renameForm!: FormGroup;
+  autofocus: Boolean = true;
 
   colElement: string[] = ['#scroll1','#scroll2','#scroll3','#scroll4'];
   hoverIndex: number | null = null;
@@ -28,7 +31,38 @@ export class ProjectsComponent {
       projectName: [null, [Validators.required]]
     });
 
+    this.renameForm = this._formBuilder.group({
+      projectName: [null, [Validators.required]]
+    });
+
     this.getProjects();
+  }
+
+  //COMPONENT METHOD
+  onRenameInputBlur(id: number){
+    this._projectService._projects![id].isEditable = false;
+  }
+
+  renameProject(id: number){
+    console.log("");
+    console.log("ProjectComponent.renameProject()");
+
+    if(this.renameForm.valid)
+    {
+      console.log("-this.renameForm.valid");
+      this._projectService._projects![id].isEditable = false;
+      let dto: ProjectDTO = this._projectService._projects![id];
+      let updateDate = new Date();
+
+      dto.name = this.renameForm.get('projectName')?.value;
+      dto.lastUpdateDate = updateDate.toISOString();
+
+      this._projectService.renameProject(dto);
+    }
+    else{
+      console.log("-!this.renameForm.valid");
+    }
+
   }
 
   addProject()
@@ -82,6 +116,13 @@ export class ProjectsComponent {
 
   }
 
+  //TABLE EVENTS
+  onProjectRightClick(event: MouseEvent, projectIndex: number) : void {
+    event.preventDefault();
+    let id = this._projectService._projects![projectIndex].id;
+    this._projectService.activateContext(event.clientY, event.clientX, projectIndex);
+  }
+
   scrollEvent(elementScroll: string) : void
   {
     let scrollColumn = this.el.nativeElement.querySelector(elementScroll);
@@ -96,12 +137,6 @@ export class ProjectsComponent {
       }
     }
 
-  }
-
-  onProjectRightClick(event: MouseEvent, projectIndex: number) : void {
-    event.preventDefault();
-    let id = this._projectService._projects![projectIndex].id;
-    this._projectService.activateContext(event.clientY, event.clientX, projectIndex);
   }
 
   onMouseEnter(index: number) : void

@@ -16,6 +16,7 @@ export class ProjectService {
 
   public _projects: ProjectDTO[] | undefined;
   public _context: ProjectContext | undefined;
+  public _deleteWarning: Boolean = false;
 
   constructor(
     private readonly http: HttpClient,
@@ -63,7 +64,7 @@ export class ProjectService {
         this._sessionService._currentUser!.userDTO = result;
         console.log(result);
       }
-    })
+    });
 
   }
 
@@ -78,6 +79,34 @@ export class ProjectService {
       this._projects = result;
       console.log("Http request service: success");
       console.log(this._projects);
+    });
+  }
+
+  renameProject(dto: ProjectDTO)
+  {
+    console.log("ProjectService.renameProject(dto: ProjectDTO)");
+    console.log("Http request: https://localhost:7241/api/Project/renameProject, dto");
+    console.log(dto);
+
+    this.http.post<ProjectDTO>("https://localhost:7241/api/Project/renameProject", dto).subscribe({
+      next: (result: any) => {
+        console.log("Http request service: success");
+        this.getProjects(this._sessionService._currentUser);
+      }
+    });
+  }
+
+  deleteProject(dto: ProjectDTO)
+  {
+    console.log("ProjectService.deleteProject(dto: ProjectDTO)");
+    console.log("Http request: https://localhost:7241/api/Project/deleteProject, dto");
+    console.log(dto);
+
+    this.http.post<ProjectDTO>("https://localhost:7241/api/Project/deleteProject", dto).subscribe({
+      next: (result: any) => {
+        console.log("Http request service: success");
+        this.getProjects(this._sessionService._currentUser);
+      }
     });
   }
 }

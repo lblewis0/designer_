@@ -18,7 +18,16 @@
                         (mousedown)="onMouseDown(i)"
                         (mouseup)="onMouseUp(i)"
                         (contextmenu)="onProjectRightClick($event, i)"
-                        (click)="updateActiveProject(project.id)">{{project.name}}
+                        (click)="updateActiveProject(project.id)">
+                        <label *ngIf="!project.isEditable" class="project-name-label">{{project.name}}</label>
+                        <form *ngIf="project.isEditable" class="project-name-form" [formGroup]="renameForm" (ngSubmit)="renameProject(i)">
+                            <input class="input-name" 
+                                   type="text" 
+                                   placeholder={{project.name}} 
+                                   formControlName="projectName"
+                                   appAutoFocus
+                                   (blur)="onRenameInputBlur(i)">
+                        </form>
                     </div>
                 </div>
             </div>

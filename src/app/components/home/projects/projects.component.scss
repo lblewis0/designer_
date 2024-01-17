@@ -576,3 +576,38 @@ $max-body-height: calc(($max-lines + 1) * 2.1rem);
     color: $font-default;
     background-color: $dark-1;
 }
+
+.project-name-form
+{
+    height: fit-content;
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.input-name
+{
+    box-sizing: border-box;
+    border: 0px solid black;
+    width: 14rem;
+    outline: none;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    padding-left: 0.75rem;
+    border-radius: 0.375rem;
+    background-color: $dark-5;
+    color: $font-default;
+}
+
+.input-name:focus
+{
+    box-sizing: border-box;
+    border: 1px solid $primary;
+    outline: 2px solid $primary;
+    background-color: $font-default;
+    color: $dark-1;
+}

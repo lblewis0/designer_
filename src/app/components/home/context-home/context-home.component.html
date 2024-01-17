@@ -1,12 +1,12 @@
 <div class="c-main-div">
     <div class="context-menu-div">
         <div class="title">Delete</div>
-        <div class="content">Are you sure you want to delete this item ?</div>
+        <div class="content">Are you sure you want to delete "{{_projectService._projects![_projectService._context!.projectId].name}}" ?</div>
         <div class="buttons">
-            <button class="button-outlined">
+            <button class="button-outlined" (click)="onCancel()">
                 <a>Cancel</a>
             </button>
-            <button class="button-error">
+            <button class="button-error" (click)="onDelete()">
                 <a>Delete</a>
             </button>
         </div>

@@ -5,6 +5,7 @@ import { ProjectDTO } from '../../../shared/models/DTO/projectDTO';
 import { SessionService } from '../../../shared/services/authentification/session.service';
 import { TokenDTO } from '../../../shared/models/DTO/tokenDTO';
 import { AutoFocusDirective } from '../../../shared/directives/auto-focus.directive';
+import { ComponentService } from '../../../shared/services/component/component.service';
 
 @Component({
   selector: 'app-projects',
@@ -25,6 +26,7 @@ export class ProjectsComponent {
     private _formBuilder: FormBuilder, 
     public _projectService: ProjectService,
     public _sessionService: SessionService,
+    public _componentService: ComponentService,
     private el: ElementRef
   ){
     this.projectForm = this._formBuilder.group({
@@ -113,6 +115,7 @@ export class ProjectsComponent {
     token!.userDTO.activeProjectId = id;
 
     this._sessionService.updateActiveProject(token as TokenDTO);
+    this._componentService.getFolderByProjectId();
 
   }
 

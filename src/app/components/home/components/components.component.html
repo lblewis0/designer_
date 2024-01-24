@@ -4,7 +4,7 @@
     </div>
     <div class="content-div">
         <div class="main-ul">
-            <ng-container *ngFor="let element of projectTree.elements; let i=index" 
+            <ng-container *ngFor="let element of _componentService._projectTree.elements; let i=index" 
             [ngTemplateOutlet]="elementTemplate"
             [ngTemplateOutletContext]="{ $implicit: element}"></ng-container>
         </div>
@@ -17,15 +17,15 @@
                          'li-element-selected' : element.isSelected === true}" 
              [style.padding-left.px]="(element.indent * 20) + 10"
              (click)="onClickTreeElement(element)"
-             (contextmenu)="onRightClickTreeElement($event, element.id, element.type)">
-             <div *ngIf="!element.childs" class="li-element-expander-hidden"></div>
-             <svg *ngIf="element.isExpanded && element.childs && element.childs.length > 0" 
+             (contextmenu)="onRightClickTreeElement($event, element.id, element.type, element)">
+             <div *ngIf="!element.children" class="li-element-expander-hidden"></div>
+             <svg *ngIf="element.isExpanded && element.children && element.children.length > 0" 
                   class="li-element-expander"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 -960 960 960">
                   <path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"/>
             </svg>
-            <svg *ngIf="!element.isExpanded && element.childs && element.childs.length > 0" 
+            <svg *ngIf="!element.isExpanded && element.children && element.children.length > 0" 
                   class="li-element-expander"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 -960 960 960">
@@ -42,15 +42,15 @@
                  class="li-element-icon-file"
                  xmlns="http://www.w3.org/2000/svg"
                  viewBox="0 -960 960 960">
-                 <path [attr.d]="element.iconPath"/>
+                 <path d="M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"/>
             </svg>
             <a class="li-element-a">{{element.name}}</a>
         </div>
         <!-- div si li selectionné et qu'il a des enfants-->
-        <div *ngIf="element.isExpanded && element.childs && element.childs.length > 0" class="li-element-childs-div">
+        <div *ngIf="element.isExpanded && element.children && element.children.length > 0" class="li-element-childs-div">
             <ng-container>
                 <div class="child-ul">
-                    <ng-container *ngFor="let childElement of element.childs; let i=index" 
+                    <ng-container *ngFor="let childElement of element.children; let i=index" 
                     [ngTemplateOutlet]="elementTemplate" 
                     [ngTemplateOutletContext]="{$implicit: childElement}"></ng-container>
                 </div>

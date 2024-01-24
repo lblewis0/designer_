@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { TokenDTO } from '../../models/DTO/tokenDTO';
 import { Router } from '@angular/router';
 import { ErrorMessageDTO } from '../../models/DTO/errorMessageDTO';
+import { ComponentService } from '../component/component.service';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,7 @@ export class SessionService {
 
   login(dto: LoginDTO) {
 
+    console.log("")
     console.log("SessionService.login(dto: LoginDTO)");
     console.log("Http request: https://localhost:7241/api/Authentification/login, dto");
     console.log(dto);
@@ -68,6 +70,7 @@ export class SessionService {
   }
 
   updateActiveProject(dto: TokenDTO){
+    console.log("")
     console.log("SessionService.updateActiveProject(dto: TokenDTO)");
     console.log("Http request: https://localhost:7241/api/User/updateActiveProject, dto");
     console.log(dto);

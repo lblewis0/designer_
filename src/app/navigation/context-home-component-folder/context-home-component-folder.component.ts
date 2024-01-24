@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ComponentService } from '../../shared/services/component/component.service';
+import { ComponentTreeElement } from '../../shared/models/models/componentTreeElement';
 
 @Component({
   selector: 'app-context-home-component-folder',
@@ -11,8 +12,21 @@ export class ContextHomeComponentFolderComponent {
   constructor(private _componentService: ComponentService){}
 
   onContextMouseLeave(){
+    console.log("");
     console.log("ContextHomeComponentFolder.onContextMouseLeave()");
     this._componentService.desactivateContext();
+  }
+
+  addFolder(){
+    console.log("");
+    console.log("ContextHomeComponentFolder.addFolder()");
+    this._componentService.addFolder();
+  }
+
+  addComponent(){
+    console.log("");
+    console.log("ContextHomeComponentFolder.addComponent()");
+    this._componentService.addComponent();
   }
 
 }

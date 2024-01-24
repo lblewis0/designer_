@@ -3,6 +3,8 @@ import { liElement, sidebarUlModel } from '../../../shared/models/models/ulModel
 import { projectTree } from '../../../shared/models/models/projectTree';
 import { ProjectTreeElement } from '../../../shared/models/models/projectTreeElement';
 import { ComponentService } from '../../../shared/services/component/component.service';
+import { ComponentTree } from '../../../shared/models/models/componentTree';
+import { ComponentTreeElement } from '../../../shared/models/models/componentTreeElement';
 
 @Component({
   selector: 'app-components',
@@ -107,8 +109,10 @@ export class ComponentsComponent {
   }
 
   constructor(
-    private _componentService: ComponentService
-  ) {}
+    public _componentService: ComponentService
+  ) {
+    this._componentService.getFolderByProjectId();
+  }
 
   onClickTreeElement(element: ProjectTreeElement) : void
   {
@@ -161,9 +165,9 @@ export class ComponentsComponent {
       }
   }
 
-  onRightClickTreeElement(event: MouseEvent, componentId: number, type: string) : void {
+  onRightClickTreeElement(event: MouseEvent, componentId: number, type: string, component: ComponentTreeElement) : void {
     event.preventDefault();
-    this._componentService.activeContext(event.clientY, event.clientX, componentId, type);
+    this._componentService.activeContext(event.clientY, event.clientX, componentId, type, component);
   }
 
 }

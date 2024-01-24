@@ -33,6 +33,7 @@ export class ProjectService {
     }
 
     this._context = context;
+    console.log("")
     console.log("ProjectService.activateContext()");
     console.log(this._context);
   }
@@ -47,12 +48,14 @@ export class ProjectService {
     }
 
     this._context = context;
+    console.log("")
     console.log("ProjectService.desactivateContext()");
     console.log(this._context);
   }
 
   createProject(dto: ProjectDTO)
   {
+    console.log("")
     console.log("ProjectService.createProject(dto: ProjectDTO)");
     console.log("Http request: https://localhost:7241/api/Project/createProject, dto");
     console.log(dto);
@@ -70,6 +73,7 @@ export class ProjectService {
 
   getProjects(token: TokenDTO | undefined)
   {
+    console.log("")
     console.log("ProjectService.getProjects(token: TokenDTO)");
     console.log("Http request: https://localhost:7241/api/Project/getProjects, token");
     console.log(token);
@@ -82,8 +86,35 @@ export class ProjectService {
     });
   }
 
+  getActiveProject() : ProjectDTO | undefined
+  {
+    console.log("")
+    console.log("ProjectService.getActiveProject()");
+    if(this._projects !== undefined)
+    {
+      let project: ProjectDTO | undefined = undefined;
+
+      for(let i=0; i < this._projects.length; i++)
+      {
+        let indProject = this._projects[i];
+
+        if(indProject.id === this._sessionService._currentUser?.userDTO.activeProjectId)
+        {
+          project = indProject;
+        }
+      }
+
+      return project
+    }
+    else
+    {
+      return undefined;
+    }
+  }
+
   renameProject(dto: ProjectDTO)
   {
+    console.log("")
     console.log("ProjectService.renameProject(dto: ProjectDTO)");
     console.log("Http request: https://localhost:7241/api/Project/renameProject, dto");
     console.log(dto);
@@ -98,6 +129,7 @@ export class ProjectService {
 
   deleteProject(dto: ProjectDTO)
   {
+    console.log("")
     console.log("ProjectService.deleteProject(dto: ProjectDTO)");
     console.log("Http request: https://localhost:7241/api/Project/deleteProject, dto");
     console.log(dto);

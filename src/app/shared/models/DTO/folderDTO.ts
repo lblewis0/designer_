@@ -1,4 +1,4 @@
-export interface ComponentTreeElement {
+export interface FolderDTO {
     id: number;
     name: string;
     creationDate: string;
@@ -8,7 +8,4 @@ export interface ComponentTreeElement {
     isEditable: Boolean;
     isSelected: Boolean;
     isExpanded: Boolean;
-    indent: number;
-    type: string;
-    children: ComponentTreeElement[];
 }

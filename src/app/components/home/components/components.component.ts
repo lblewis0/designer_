@@ -23,7 +23,7 @@ export class ComponentsComponent {
         iconPath: 'M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640v400q0 33-23.5 56.5T800-160H160Zm0-80h640v-400H447l-80-80H160v480Zm0 0v-480 480Z',
         indent: 0,
         type: 'folder',
-        childs: [
+        children: [
           {
             id: 2,
             name: 'File 1.1',
@@ -62,7 +62,7 @@ export class ComponentsComponent {
         iconPath: 'M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640v400q0 33-23.5 56.5T800-160H160Zm0-80h640v-400H447l-80-80H160v480Zm0 0v-480 480Z',
         indent: 0,
         type: 'folder',
-        childs: [
+        children: [
           {
             id: 6,
             name: 'Folder 2.1',
@@ -71,7 +71,7 @@ export class ComponentsComponent {
             iconPath: 'M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640v400q0 33-23.5 56.5T800-160H160Zm0-80h640v-400H447l-80-80H160v480Zm0 0v-480 480Z',
             indent: 1,
             type: 'folder',
-            childs: [
+            children: [
               {
                 id: 7,
                 name: 'File 2.1.1',
@@ -124,7 +124,7 @@ export class ComponentsComponent {
             
             this.projectTree.elements[i].isSelected = false;
           
-            if(this.projectTree.elements[i].childs)
+            if(this.projectTree.elements[i].children)
             {
                this.unSelect(this.projectTree.elements[i]);
             }
@@ -150,15 +150,15 @@ export class ComponentsComponent {
     
   unSelect(element: ProjectTreeElement) : void
   {
-      if(element.childs && element.childs.length > 0)
+      if(element.children && element.children.length > 0)
       {
-         for(let i = 0; i < element.childs.length; i++)
+         for(let i = 0; i < element.children.length; i++)
          {
-            console.log(element.childs[i].name);
+            console.log(element.children[i].name);
 
-            element.childs[i].isSelected = false;
+            element.children[i].isSelected = false;
 
-            this.unSelect(element.childs[i]);
+            this.unSelect(element.children[i]);
          }
       }
   }

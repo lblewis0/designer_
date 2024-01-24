@@ -6,5 +6,5 @@ export interface ProjectTreeElement {
    iconPath: string;
    indent: number;
    type: string;
-   childs?: ProjectTreeElement[];
+   children?: ProjectTreeElement[];
 }

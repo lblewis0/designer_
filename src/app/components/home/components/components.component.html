@@ -4,7 +4,7 @@
     </div>
     <div class="content-div">
         <div class="main-ul">
-            <ng-container *ngFor="let element of _componentService._projectTree.elements; let i=index" 
+            <ng-container *ngFor="let element of projectTree.elements; let i=index" 
             [ngTemplateOutlet]="elementTemplate"
             [ngTemplateOutletContext]="{ $implicit: element}"></ng-container>
         </div>

@@ -16,7 +16,6 @@ export class ComponentService {
 
   public _context: ComponentContext | undefined;
   public _contextComponent: ComponentTreeElement | undefined;
-
   public _projectTree: ComponentTree = {
     elements: []
   }
@@ -76,7 +75,7 @@ export class ComponentService {
 
     if(children !== undefined && children?.length > 0)
     {
-        
+
     }
 
 

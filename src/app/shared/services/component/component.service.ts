@@ -62,7 +62,27 @@ export class ComponentService {
     console.log(this._contextComponent);
   }
 
-  getFolderByProjectId()
+  initComponentTree(){
+
+    //crée un ComponentTreeElement à partir du MainFolder;
+    //récupérer un FolderDTO depuis getMainFolderByProjectId();
+    //checker si ce FolderDTO à des enfants;
+    //si oui, crée un ComponentTreeElement avec le resultat des enfants;
+    //puis push le resultat dans this._projectTree.elements[0];
+
+    let mainFolder = this.getMainFolderByProjectId();
+
+    let children = this.getFoldersByParentFolderId(mainFolder as FolderDTO, 0);
+
+    if(children !== undefined && children?.length > 0)
+    {
+        
+    }
+
+
+  }
+
+  getMainFolderByProjectId() : FolderDTO | undefined
   {
     let dto: ProjectDTO | undefined = this._projectService.getActiveProject();
 
@@ -72,37 +92,19 @@ export class ComponentService {
       console.log("ComponentService.getFolderByProjectId(dto: ProjectDTO)");
       console.log("Http request: https://localhost:7241/api/Folder/getFolderByProjectId, dto");
       console.log(dto);
+
+      let folder: FolderDTO | undefined = undefined;
   
       this.http.post<ProjectDTO>("https://localhost:7241/api/Folder/getFolderByProjectId", dto)
       .subscribe((result: any) => {
-        let folder = result;
-
-        //C'est a la creation de cet objet la que je dois lui ajouter des enfants s'il en a
-        let element: ComponentTreeElement = {
-          id: folder.id,
-          name: folder.name,
-          creationDate: folder.creationDate,
-          lastUpdateDate: folder.lastUpdateDate,
-          projectId: folder.projectId,
-          parentFolderId: folder.parentFolderId,
-          isEditable: folder.isEditable,
-          isSelected: folder.isSelected,
-          isExpanded: folder.isExpanded,
-          indent: 0,
-          type: "folder",
-          // children: [], //Plus précisement ici que je dois check s'il a des enfants,
-          children: []
-        }
-
-        // element.children = this.getFoldersByParentFolderId(folder, element.indent);
-
-        this._projectTree.elements = [];
-        this._projectTree.elements.push(element);
+        folder = result;
         console.log(folder);
-        console.log("FolderDTO to ComponentTreeElement");
-        console.log(element);
       });
+
+      return folder;
     }  
+
+    return undefined;
     
   }
 

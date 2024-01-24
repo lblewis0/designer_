@@ -110,9 +110,7 @@ export class ComponentsComponent {
 
   constructor(
     public _componentService: ComponentService
-  ) {
-    this._componentService.getFolderByProjectId();
-  }
+  ) {  }
 
   onClickTreeElement(element: ProjectTreeElement) : void
   {

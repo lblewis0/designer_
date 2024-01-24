@@ -115,8 +115,6 @@ export class ProjectsComponent {
     token!.userDTO.activeProjectId = id;
 
     this._sessionService.updateActiveProject(token as TokenDTO);
-    this._componentService.getFolderByProjectId();
-
   }
 
   //TABLE EVENTS

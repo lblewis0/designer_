@@ -8,6 +8,9 @@ import { SessionService } from '../authentification/session.service';
 import { ProjectService } from '../project/project.service';
 import { ComponentTreeElement } from '../../models/models/componentTreeElement';
 import { FolderDTO } from '../../models/DTO/folderDTO';
+import { MapperDTOService } from '../mapper/mapper-dto.service';
+import { ErrorMessageDTO } from '../../models/DTO/errorMessageDTO';
+import { ComponentDTO } from '../../models/DTO/componentDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +26,8 @@ export class ComponentService {
   constructor(
     private readonly http: HttpClient,
     public _sessionService: SessionService,
-    public _projectService: ProjectService) {
+    public _projectService: ProjectService,
+    private _mapper: MapperDTOService) {
     }
 
   activeContext(top: number, left: number, idComponent: number, type: string, component: ComponentTreeElement){
@@ -69,16 +73,19 @@ export class ComponentService {
     //si oui, crée un ComponentTreeElement avec le resultat des enfants;
     //puis push le resultat dans this._projectTree.elements[0];
 
-    let mainFolder = this.getMainFolderByProjectId();
+    let mainFolder: FolderDTO | undefined = this.getMainFolderByProjectId();
 
-    let children = this.getFoldersByParentFolderId(mainFolder as FolderDTO, 0);
-
-    if(children !== undefined && children?.length > 0)
+    //Le main folder existe
+    if(mainFolder !== undefined)
     {
+      let mainComponent = this._mapper.folderDTOToElementTree(mainFolder, 0);
+      mainComponent = this.findFolderChildren(mainComponent);
+      mainComponent = this.findComponentChildren(mainComponent);
 
+      this._projectTree.elements = [];
+      this._projectTree.elements.push(mainComponent);
     }
-
-
+    
   }
 
   getMainFolderByProjectId() : FolderDTO | undefined
@@ -107,29 +114,49 @@ export class ComponentService {
     
   }
 
-  getFoldersByParentFolderId(folder: FolderDTO, indent: number) : ComponentTreeElement[] | undefined {
+  getFoldersByParentFolder(folder: FolderDTO) : FolderDTO[] | undefined {
     console.log("")
     console.log("ComponentService.getFoldersByParentFolderId(folder: FolderDTO)");
     console.log("Http request: https://localhost:7241/api/Folder/getFoldersByParentFolder, folder");
     console.log(folder);
 
-    //Je dois convertir chaque element de la liste en ComponentTreeElement
     let list: FolderDTO[] | undefined = undefined
-    let newList: ComponentTreeElement[] | undefined = undefined;
-  
-    this.http.post<FolderDTO>("https://localhost:7241/api/Folder/getFoldersByParentFolder", folder)
-    .subscribe((result: any) => {
-        console.log("Http request response: success");
-        console.log(result);
-        list = result;
 
-        if(list !== undefined)
-        {
-          for(let i=0; i < list.length; i++)
-          {
-            let folder: FolderDTO = list[i];
-          }
-        } 
+    this.http.post<FolderDTO>("https://localhost:7241/api/Folder/getFoldersByParentFolder", folder)
+    .subscribe({
+      next: (result: any) => {
+        list = result;
+      },
+      error: (error: any) => {
+        let errorMessage: ErrorMessageDTO = error.error;
+        console.log("Http error: " + errorMessage.message);
+        list = undefined;
+      }
+
+    });
+
+    return list;
+  }
+
+  getComponentsByParentFolder(folder: FolderDTO) : ComponentDTO[] | undefined {
+    console.log("")
+    console.log("ComponentService.getComponentsByParentFolder(folder: FolderDTO)");
+    console.log("Http request: https://localhost:7241/api/Component/getComponentsByParentFolder, folder");
+    console.log(folder);
+
+    let list: ComponentDTO[] | undefined = undefined
+
+    this.http.post<FolderDTO>("https://localhost:7241/api/Component/getComponentsByParentFolder", folder)
+    .subscribe({
+      next: (result: any) => {
+        list = result;
+      },
+      error: (error: any) => {
+        let errorMessage: ErrorMessageDTO = error.error;
+        console.log("Http error: " + errorMessage.message);
+        list = undefined;
+      }
+
     });
 
     return list;
@@ -195,5 +222,49 @@ export class ComponentService {
   addComponent() : void {
     console.log("");
     console.log("ComponentService.addComponent()");
+  }
+
+  findFolderChildren(treeElement: ComponentTreeElement) : ComponentTreeElement {
+
+    if(treeElement.type === "folder")
+    {
+      let folder: FolderDTO = this._mapper.elementTreeToFolderDTO(treeElement);
+      let folderChildren: FolderDTO[] | undefined = undefined;
+
+      folderChildren = this.getFoldersByParentFolder(folder);
+
+      //Le dossier a bien des dossiers enfants
+      if(folderChildren !== undefined)
+      {
+        for(let i=0; i < folderChildren.length; i++)
+        {
+          let newComponent = this._mapper.folderDTOToElementTree(folderChildren[i], treeElement.indent + 1);
+          newComponent = this.findFolderChildren(newComponent);
+          treeElement.children.push(newComponent);
+        }
+      }
+    }
+    return treeElement;
+  }
+
+  findComponentChildren(treeElement: ComponentTreeElement) : ComponentTreeElement {
+    if(treeElement.type === "folder")
+    {
+      let folder: FolderDTO = this._mapper.elementTreeToFolderDTO(treeElement);
+      let componentChildren: ComponentDTO[] | undefined = undefined;
+
+      componentChildren = this.getComponentsByParentFolder(folder);
+
+      //Le dossier a bien des dossiers enfants
+      if(componentChildren !== undefined)
+      {
+        for(let i=0; i < componentChildren.length; i++)
+        {
+          let newComponent = this._mapper.componentDTOToElementTree(componentChildren[i], treeElement.indent + 1);
+          treeElement.children.push(newComponent);
+        }
+      }
+    }
+    return treeElement;
   }
 }

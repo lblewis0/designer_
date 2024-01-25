@@ -240,6 +240,7 @@ export class ComponentService {
         {
           let newComponent = this._mapper.folderDTOToElementTree(folderChildren[i], treeElement.indent + 1);
           newComponent = this.findFolderChildren(newComponent);
+          // newComponent = this.findComponentChildren(newComponent);
           treeElement.children.push(newComponent);
         }
       }

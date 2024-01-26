@@ -98,8 +98,6 @@ export class ProjectService {
       this.dataStore.setProjects(result);
       console.log("Http request service: success");
       console.log(this._projects);
-
-      // this._projectComponentService._ProjectsLoaded.next(true);
     });
 
   }

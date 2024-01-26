@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, firstValueFrom } from 'rxjs';
 import { ComponentContext } from '../../models/models/componentContext';
 import { ComponentTree } from '../../models/models/componentTree';
 import { ProjectDTO } from '../../models/DTO/projectDTO';
@@ -11,6 +11,8 @@ import { FolderDTO } from '../../models/DTO/folderDTO';
 import { MapperDTOService } from '../mapper/mapper-dto.service';
 import { ErrorMessageDTO } from '../../models/DTO/errorMessageDTO';
 import { ComponentDTO } from '../../models/DTO/componentDTO';
+import { DataStoreService } from '../dataStore/data-store.service';
+import { projectTree } from '../../models/models/projectTree';
 
 @Injectable({
   providedIn: 'root'
@@ -19,15 +21,31 @@ export class ComponentService {
 
   public _context: ComponentContext | undefined;
   public _contextComponent: ComponentTreeElement | undefined;
-  public _projectTree: ComponentTree = {
+
+  public _projectTree: ComponentTree | undefined = {
     elements: []
-  }
+  } //DependOn BehaviorSubject
 
   constructor(
     private readonly http: HttpClient,
     public _sessionService: SessionService,
     public _projectService: ProjectService,
-    private _mapper: MapperDTOService) {
+    private _mapper: MapperDTOService,
+    public dataStore: DataStoreService) {
+
+      this.dataStore.projects$.subscribe((value: ProjectDTO[] | undefined) => {
+        this.initComponentTree();
+      })
+
+      this.dataStore.projectTree$.subscribe((value: ComponentTree | undefined) => {
+        this._projectTree = value;
+      })
+
+      let projTree: ComponentTree = {
+        elements: []
+      };
+
+      this.dataStore.setProjectTree(projTree);
     }
 
   activeContext(top: number, left: number, idComponent: number, type: string, component: ComponentTreeElement){
@@ -65,80 +83,72 @@ export class ComponentService {
     console.log(this._contextComponent);
   }
 
-  initComponentTree(){
+  async initComponentTree(){
 
-    //crée un ComponentTreeElement à partir du MainFolder;
-    //récupérer un FolderDTO depuis getMainFolderByProjectId();
-    //checker si ce FolderDTO à des enfants;
-    //si oui, crée un ComponentTreeElement avec le resultat des enfants;
-    //puis push le resultat dans this._projectTree.elements[0];
-
-    let mainFolder: FolderDTO | undefined = this.getMainFolderByProjectId();
+    
+    console.log("");
+    console.log("ComponentService.initComponentTree()");
+    console.log("mainFolder:");
+    let mainFolder: FolderDTO | undefined = await this.getMainFolderByProjectId()
 
     //Le main folder existe
     if(mainFolder !== undefined)
     {
       let mainComponent = this._mapper.folderDTOToElementTree(mainFolder, 0);
-      mainComponent = this.findFolderChildren(mainComponent);
-      mainComponent = this.findComponentChildren(mainComponent);
+      mainComponent = await this.findFolderChildren(mainComponent);
+      mainComponent = await this.findComponentChildren(mainComponent);
 
-      this._projectTree.elements = [];
-      this._projectTree.elements.push(mainComponent);
+      let tempProjectTree: ComponentTree | undefined = this.dataStore.projectTree;
+
+      if(tempProjectTree !== undefined)
+      {
+        tempProjectTree!.elements = [];
+        tempProjectTree!.elements.push(mainComponent);
+      }
+
+      this.dataStore.projectTree$.next(tempProjectTree);
+      console.log(this.dataStore.projectTree);
+      
     }
     
   }
 
-  getMainFolderByProjectId() : FolderDTO | undefined
+  async getMainFolderByProjectId() : Promise<FolderDTO | undefined>
   {
     let dto: ProjectDTO | undefined = this._projectService.getActiveProject();
 
     if(dto !== undefined)
     {
-      console.log("")
       console.log("ComponentService.getFolderByProjectId(dto: ProjectDTO)");
       console.log("Http request: https://localhost:7241/api/Folder/getFolderByProjectId, dto");
       console.log(dto);
-
-      let folder: FolderDTO | undefined = undefined;
-  
-      this.http.post<ProjectDTO>("https://localhost:7241/api/Folder/getFolderByProjectId", dto)
-      .subscribe((result: any) => {
-        folder = result;
-        console.log(folder);
-      });
-
-      return folder;
+ 
+      return await firstValueFrom(this.http.post<FolderDTO>("https://localhost:7241/api/Folder/getFolderByProjectId", dto))
+    }
+    else
+    {
+      return undefined;
     }  
-
-    return undefined;
     
   }
 
-  getFoldersByParentFolder(folder: FolderDTO) : FolderDTO[] | undefined {
+  async getFoldersByParentFolder(folder: FolderDTO) : Promise<FolderDTO[] | undefined> {
     console.log("")
     console.log("ComponentService.getFoldersByParentFolderId(folder: FolderDTO)");
     console.log("Http request: https://localhost:7241/api/Folder/getFoldersByParentFolder, folder");
     console.log(folder);
 
-    let list: FolderDTO[] | undefined = undefined
+    let response = await firstValueFrom(this.http.post<FolderDTO[]>("https://localhost:7241/api/Folder/getFoldersByParentFolder", folder))
+    .then((data : any) => { return data })
+    .catch((error) => {
+      console.log(error.errorMessage);
+    })
 
-    this.http.post<FolderDTO>("https://localhost:7241/api/Folder/getFoldersByParentFolder", folder)
-    .subscribe({
-      next: (result: any) => {
-        list = result;
-      },
-      error: (error: any) => {
-        let errorMessage: ErrorMessageDTO = error.error;
-        console.log("Http error: " + errorMessage.message);
-        list = undefined;
-      }
+    return response;
 
-    });
-
-    return list;
   }
 
-  getComponentsByParentFolder(folder: FolderDTO) : ComponentDTO[] | undefined {
+  async getComponentsByParentFolder(folder: FolderDTO) : Promise<ComponentDTO[] | undefined> {
     console.log("")
     console.log("ComponentService.getComponentsByParentFolder(folder: FolderDTO)");
     console.log("Http request: https://localhost:7241/api/Component/getComponentsByParentFolder, folder");
@@ -146,20 +156,13 @@ export class ComponentService {
 
     let list: ComponentDTO[] | undefined = undefined
 
-    this.http.post<FolderDTO>("https://localhost:7241/api/Component/getComponentsByParentFolder", folder)
-    .subscribe({
-      next: (result: any) => {
-        list = result;
-      },
-      error: (error: any) => {
-        let errorMessage: ErrorMessageDTO = error.error;
-        console.log("Http error: " + errorMessage.message);
-        list = undefined;
-      }
+    let response =  await firstValueFrom(this.http.post<ComponentDTO[]>("https://localhost:7241/api/Component/getComponentsByParentFolder", folder))
+    .then((data : any) => { return data })
+    .catch((error) => {
+      console.log(error.errorMessage);
+    })
 
-    });
-
-    return list;
+    return response;
   }
 
   addFolder() : void {
@@ -194,15 +197,15 @@ export class ComponentService {
     }
 
     let mainFolder: FolderDTO = {
-      id: this._projectTree.elements[0].id,
-      name: this._projectTree.elements[0].name,
-      creationDate: this._projectTree.elements[0].creationDate,
-      lastUpdateDate: this._projectTree.elements[0].lastUpdateDate,
-      projectId: this._projectTree.elements[0].projectId,
-      parentFolderId: this._projectTree.elements[0].parentFolderId,
-      isEditable: this._projectTree.elements[0].isEditable,
-      isSelected: this._projectTree.elements[0].isSelected,
-      isExpanded: this._projectTree.elements[0].isExpanded
+      id: this.dataStore.projectTree!.elements[0].id,
+      name: this.dataStore.projectTree!.elements[0].name,
+      creationDate: this.dataStore.projectTree!.elements[0].creationDate,
+      lastUpdateDate: this.dataStore.projectTree!.elements[0].lastUpdateDate,
+      projectId: this.dataStore.projectTree!.elements[0].projectId,
+      parentFolderId: this.dataStore.projectTree!.elements[0].parentFolderId,
+      isEditable: this.dataStore.projectTree!.elements[0].isEditable,
+      isSelected: this.dataStore.projectTree!.elements[0].isSelected,
+      isExpanded: this.dataStore.projectTree!.elements[0].isExpanded
     }
 
     this.desactivateContext();
@@ -224,14 +227,15 @@ export class ComponentService {
     console.log("ComponentService.addComponent()");
   }
 
-  findFolderChildren(treeElement: ComponentTreeElement) : ComponentTreeElement {
+  async findFolderChildren(treeElement: ComponentTreeElement) : Promise<ComponentTreeElement> {
 
     if(treeElement.type === "folder")
     {
       let folder: FolderDTO = this._mapper.elementTreeToFolderDTO(treeElement);
       let folderChildren: FolderDTO[] | undefined = undefined;
 
-      folderChildren = this.getFoldersByParentFolder(folder);
+      folderChildren = await this.getFoldersByParentFolder(folder);
+
 
       //Le dossier a bien des dossiers enfants
       if(folderChildren !== undefined)
@@ -239,8 +243,8 @@ export class ComponentService {
         for(let i=0; i < folderChildren.length; i++)
         {
           let newComponent = this._mapper.folderDTOToElementTree(folderChildren[i], treeElement.indent + 1);
-          newComponent = this.findFolderChildren(newComponent);
-          // newComponent = this.findComponentChildren(newComponent);
+          newComponent = await this.findFolderChildren(newComponent);
+          newComponent = await this.findComponentChildren(newComponent);
           treeElement.children.push(newComponent);
         }
       }
@@ -248,15 +252,15 @@ export class ComponentService {
     return treeElement;
   }
 
-  findComponentChildren(treeElement: ComponentTreeElement) : ComponentTreeElement {
+  async findComponentChildren(treeElement: ComponentTreeElement) : Promise<ComponentTreeElement> {
     if(treeElement.type === "folder")
     {
       let folder: FolderDTO = this._mapper.elementTreeToFolderDTO(treeElement);
       let componentChildren: ComponentDTO[] | undefined = undefined;
 
-      componentChildren = this.getComponentsByParentFolder(folder);
+      componentChildren = await this.getComponentsByParentFolder(folder);
 
-      //Le dossier a bien des dossiers enfants
+      //Le dossier a bien des components enfants
       if(componentChildren !== undefined)
       {
         for(let i=0; i < componentChildren.length; i++)

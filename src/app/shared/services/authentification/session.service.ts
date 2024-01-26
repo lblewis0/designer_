@@ -6,27 +6,46 @@ import { TokenDTO } from '../../models/DTO/tokenDTO';
 import { Router } from '@angular/router';
 import { ErrorMessageDTO } from '../../models/DTO/errorMessageDTO';
 import { ComponentService } from '../component/component.service';
+import { DataStoreService } from '../dataStore/data-store.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionService {
 
-  public _currentUser: TokenDTO | undefined;
-  public _userId: number | undefined;
-  public _isConnected!: Boolean;
+  public _currentUser: TokenDTO | undefined; //dependOn BehaviorSubject
+  public _userId: number | undefined; //dependOn BehaviorSubject
+  public _isConnected!: Boolean; //dependOn BehaviorSubject
+
   public _usernameValid = true;
   public _passwordValid = true;
 
-  constructor(private readonly http: HttpClient, private router: Router) 
-  {   
+  constructor(
+    private readonly http: HttpClient, 
+    private router: Router,
+    public dataStore: DataStoreService) 
+  { 
+    this.dataStore.currentUser$.subscribe((value: TokenDTO | undefined) => {
+      this._currentUser = value;
+    });
+
+    this.dataStore.userId$.subscribe((value: number | undefined) => {
+      this._userId = value;
+    });
+
+    this.dataStore.isConnected$.subscribe((value: Boolean) => {
+      this._isConnected = value;
+    });
+
     let json = localStorage.getItem("currentUser");
     if(json)
     {
-      this._currentUser = JSON.parse(json);
-      this._isConnected = true;
-      this._userId = this._currentUser?.userDTO.id;
+      let user = JSON.parse(json);
+      this.dataStore.setCurrentUser(user);
+      this.dataStore.setUserId(user.id);
+      this.dataStore.setIsConnected(true);
     }
+
   }
 
   login(dto: LoginDTO) {
@@ -39,9 +58,11 @@ export class SessionService {
     this.http.post<TokenDTO>("https://localhost:7241/api/Authentification/login", dto)
     .subscribe({
       next: (tokenDTO: TokenDTO) => {
-        this._currentUser = tokenDTO;
-        this._isConnected = true;
-        this._userId = tokenDTO.userDTO.id;
+
+        this.dataStore.setCurrentUser(tokenDTO); 
+        this.dataStore.setUserId(tokenDTO.userDTO.id);
+        this.dataStore.setIsConnected(true);
+
         this._usernameValid = true;
         this._passwordValid = true;
         localStorage.setItem("currentUser", JSON.stringify(tokenDTO));
@@ -63,7 +84,6 @@ export class SessionService {
           if(errorMessage.message === "wrongPassword"){
           this._passwordValid = false;
           }
-
       }   
     });
 
@@ -75,7 +95,7 @@ export class SessionService {
     console.log("Http request: https://localhost:7241/api/User/updateActiveProject, dto");
     console.log(dto);
 
-    this._currentUser = dto;
+    this.dataStore.setCurrentUser(dto);
 
     this.http.post<TokenDTO>("https://localhost:7241/api/User/updateActiveProject", dto)
     .subscribe((result: any) => {
@@ -84,9 +104,9 @@ export class SessionService {
   }
 
   logout() : void {
-    this._currentUser = undefined;
-    this._isConnected = false;
-    this._userId = undefined;
+    this.dataStore.setCurrentUser(undefined);
+    this.dataStore.setUserId(undefined);
+    this.dataStore.setIsConnected(false);
     localStorage.removeItem("currentUser");
     this.router.navigate(["login"]);
   }

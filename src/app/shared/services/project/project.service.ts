@@ -8,20 +8,28 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { ProjectContext } from '../../models/models/projectContext';
 import { Project } from '../../models/models/project';
 import { SessionService } from '../authentification/session.service';
+import { ComponentService } from '../component/component.service';
+import { DataStoreService } from '../dataStore/data-store.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
 
-  public _projects: ProjectDTO[] | undefined;
-  public _context: ProjectContext | undefined;
-  public _deleteWarning: Boolean = false;
+  public _projects: ProjectDTO[] | undefined; //DependOn BehaviorSubject
+
+  public _context: ProjectContext | undefined; //DependOn BehaviorSubject
+  public _deleteWarning: Boolean = false; //DependOn BehaviorSubject
 
   constructor(
     private readonly http: HttpClient,
-    public _sessionService: SessionService
-  ){}
+    public _sessionService: SessionService,
+    public dataStore: DataStoreService
+  ){
+    this.dataStore.projects$.subscribe((value: ProjectDTO[] | undefined) => {
+      this._projects = value;
+    })
+  }
 
   activateContext(top: number, left: number, idProject: number)
   {
@@ -63,8 +71,15 @@ export class ProjectService {
     this.http.post<ProjectDTO>("https://localhost:7241/api/Project/createProject", dto).subscribe({
       next: (result: any) => {
         console.log("Http request service: success");
-        this.getProjects(this._sessionService._currentUser);
-        this._sessionService._currentUser!.userDTO = result;
+        this.getProjects(this.dataStore.currentUser);
+
+        let _token = this.dataStore.currentUser!.token;
+        let newUser: TokenDTO = {
+          token: _token,
+          userDTO: result
+        }
+
+        this.dataStore.setCurrentUser(newUser);
         console.log(result);
       }
     });
@@ -73,22 +88,24 @@ export class ProjectService {
 
   getProjects(token: TokenDTO | undefined)
   {
-    console.log("")
     console.log("ProjectService.getProjects(token: TokenDTO)");
     console.log("Http request: https://localhost:7241/api/Project/getProjects, token");
     console.log(token);
 
     this.http.post<TokenDTO>("https://localhost:7241/api/Project/getProjects", token)
     .subscribe((result: any) => {
-      this._projects = result;
+
+      this.dataStore.setProjects(result);
       console.log("Http request service: success");
       console.log(this._projects);
+
+      // this._projectComponentService._ProjectsLoaded.next(true);
     });
+
   }
 
   getActiveProject() : ProjectDTO | undefined
   {
-    console.log("")
     console.log("ProjectService.getActiveProject()");
     if(this._projects !== undefined)
     {
@@ -98,16 +115,18 @@ export class ProjectService {
       {
         let indProject = this._projects[i];
 
-        if(indProject.id === this._sessionService._currentUser?.userDTO.activeProjectId)
+        if(indProject.id === this.dataStore.currentUser?.userDTO.activeProjectId)
         {
           project = indProject;
         }
       }
 
+      console.log(project);
       return project
     }
     else
     {
+      console.log("--active project not found");
       return undefined;
     }
   }
@@ -122,7 +141,7 @@ export class ProjectService {
     this.http.post<ProjectDTO>("https://localhost:7241/api/Project/renameProject", dto).subscribe({
       next: (result: any) => {
         console.log("Http request service: success");
-        this.getProjects(this._sessionService._currentUser);
+        this.getProjects(this.dataStore.currentUser);
       }
     });
   }
@@ -137,7 +156,7 @@ export class ProjectService {
     this.http.post<ProjectDTO>("https://localhost:7241/api/Project/deleteProject", dto).subscribe({
       next: (result: any) => {
         console.log("Http request service: success");
-        this.getProjects(this._sessionService._currentUser);
+        this.getProjects(this.dataStore.currentUser);
       }
     });
   }

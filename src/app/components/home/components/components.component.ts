@@ -5,6 +5,7 @@ import { ProjectTreeElement } from '../../../shared/models/models/projectTreeEle
 import { ComponentService } from '../../../shared/services/component/component.service';
 import { ComponentTree } from '../../../shared/models/models/componentTree';
 import { ComponentTreeElement } from '../../../shared/models/models/componentTreeElement';
+import { DataStoreService } from '../../../shared/services/dataStore/data-store.service';
 
 @Component({
   selector: 'app-components',
@@ -109,24 +110,25 @@ export class ComponentsComponent {
   }
 
   constructor(
-    public _componentService: ComponentService
-  ) {  }
+    public _componentService: ComponentService,
+    public dataStore: DataStoreService
+  ) {}
 
   onClickTreeElement(element: ProjectTreeElement) : void
   {
       //Ensuite je regarde à tous les autres li présent dans la sidebar
       //Et je change leur valeur en false
-      if(this.projectTree.elements && this.projectTree.elements.length > 0)
+      if(this.dataStore.projectTree!.elements && this.dataStore.projectTree!.elements.length > 0)
       {
-         for(let i = 0; i < this.projectTree.elements.length;i++)
+         for(let i = 0; i < this.dataStore.projectTree!.elements.length;i++)
          {
-            console.log(this.projectTree.elements[i].name);
+            console.log(this.dataStore.projectTree!.elements[i].name);
             
-            this.projectTree.elements[i].isSelected = false;
+            this.dataStore.projectTree!.elements[i].isSelected = false;
           
-            if(this.projectTree.elements[i].children)
+            if(this.dataStore.projectTree!.elements[i].children)
             {
-               this.unSelect(this.projectTree.elements[i]);
+               this.unSelect(this.dataStore.projectTree!.elements[i]);
             }
          }
       }
@@ -144,11 +146,11 @@ export class ComponentsComponent {
         element.isExpanded = true;
       }
 
-      console.log(this.projectTree);
+      console.log(this.dataStore.projectTree);
       
   }
     
-  unSelect(element: ProjectTreeElement) : void
+  unSelect(element: ComponentTreeElement) : void
   {
       if(element.children && element.children.length > 0)
       {

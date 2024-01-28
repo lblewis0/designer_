@@ -44,7 +44,15 @@
                  viewBox="0 -960 960 960">
                  <path d="M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"/>
             </svg>
-            <a class="li-element-a">{{element.name}}</a>
+            <a *ngIf="!element.isEditable" class="li-element-a">{{element.name}}</a>
+            <form *ngIf="element.isEditable" class="project-name-form" [formGroup]="renameForm" (ngSubmit)="renameComponent(element)">
+                <input class="input-name" 
+                       type="text" 
+                       placeholder={{element.name}} 
+                       formControlName="componentName"
+                       appAutoFocus
+                       (blur)="onRenameInputBlur(element)">
+            </form>
         </div>
         <!-- div si li selectionné et qu'il a des enfants-->
         <div *ngIf="element.isExpanded && element.children && element.children.length > 0" class="li-element-childs-div">

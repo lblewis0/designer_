@@ -6,6 +6,8 @@ import { ComponentService } from '../../../shared/services/component/component.s
 import { ComponentTree } from '../../../shared/models/models/componentTree';
 import { ComponentTreeElement } from '../../../shared/models/models/componentTreeElement';
 import { DataStoreService } from '../../../shared/services/dataStore/data-store.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MapperDateService } from '../../../shared/services/mapper/mapper-date.service';
 
 @Component({
   selector: 'app-components',
@@ -14,105 +16,46 @@ import { DataStoreService } from '../../../shared/services/dataStore/data-store.
 })
 export class ComponentsComponent {
 
-  projectTree: projectTree = {
-    elements: [
-      {
-        id: 1,
-        name: 'Folder 1',
-        isSelected: false,
-        isExpanded: false,
-        iconPath: 'M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640v400q0 33-23.5 56.5T800-160H160Zm0-80h640v-400H447l-80-80H160v480Zm0 0v-480 480Z',
-        indent: 0,
-        type: 'folder',
-        children: [
-          {
-            id: 2,
-            name: 'File 1.1',
-            isSelected: false,
-            isExpanded: false,
-            iconPath: 'M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z',
-            indent: 1,
-            type: 'file'
-          },
-          {
-            id: 3,
-            name: 'File 1.2',
-            isSelected: false,
-            isExpanded: false,
-            iconPath: 'M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z',
-            indent: 1,
-            type: 'file'
-          },
-          {
-            id: 4,
-            name: 'File 1.3',
-            isSelected: false,
-            isExpanded: false,
-            iconPath: 'M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z',
-            indent: 1,
-            type: 'file'
-          }
-
-        ]
-      },
-      {
-        id: 5,
-        name: 'Folder 2',
-        isSelected: false,
-        isExpanded: false,
-        iconPath: 'M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640v400q0 33-23.5 56.5T800-160H160Zm0-80h640v-400H447l-80-80H160v480Zm0 0v-480 480Z',
-        indent: 0,
-        type: 'folder',
-        children: [
-          {
-            id: 6,
-            name: 'Folder 2.1',
-            isSelected: false,
-            isExpanded: false,
-            iconPath: 'M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640v400q0 33-23.5 56.5T800-160H160Zm0-80h640v-400H447l-80-80H160v480Zm0 0v-480 480Z',
-            indent: 1,
-            type: 'folder',
-            children: [
-              {
-                id: 7,
-                name: 'File 2.1.1',
-                isSelected: false,
-                isExpanded: false,
-                iconPath: 'M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z',
-                indent: 2,
-                type: 'file'
-              },
-              {
-                id: 8,
-                name: 'File 2.1.2',
-                isSelected: false,
-                isExpanded: false,
-                iconPath: 'M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z',
-                indent: 2,
-                type: 'file'
-              },
-              {
-                id: 9,
-                name: 'File 2.1.3',
-                isSelected: false,
-                isExpanded: false,
-                iconPath: 'M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z',
-                indent: 2,
-                type: 'file'
-              },
-    
-            ]
-          }
-
-        ]
-      }
-    ]
-  }
+  renameForm!: FormGroup;
+  autofocus: Boolean = true;
 
   constructor(
     public _componentService: ComponentService,
-    public dataStore: DataStoreService
-  ) {}
+    private _formBuilder: FormBuilder,
+    public dataStore: DataStoreService,
+    private dateMapper: MapperDateService
+  ) {
+
+    this.renameForm = this._formBuilder.group({
+      componentName: [null, [Validators.required]]
+    });
+  }
+
+  onRenameInputBlur(component: ComponentTreeElement){
+  }
+
+  renameComponent(component: ComponentTreeElement){
+    console.log("");
+    console.log("ComponentComponent.renameComponent()");
+
+    if(this.renameForm.valid)
+    {
+      console.log("-this.renameForm.valid");
+      component.isEditable = false;
+      component.name = this.renameForm.get('componentName')?.value;
+      component.lastUpdateDate = this.dateMapper.dateToString(new Date());
+
+      console.log(component);
+
+      this.dataStore.setComponentTreeElementById(component.id, component);
+    }
+    else{
+      console.log("-!this.renameForm.valid");
+      component.isEditable = false;
+    }
+
+  }
+
 
   onClickTreeElement(element: ProjectTreeElement) : void
   {
@@ -122,7 +65,7 @@ export class ComponentsComponent {
       {
          for(let i = 0; i < this.dataStore.projectTree!.elements.length;i++)
          {
-            console.log(this.dataStore.projectTree!.elements[i].name);
+            // console.log(this.dataStore.projectTree!.elements[i].name);
             
             this.dataStore.projectTree!.elements[i].isSelected = false;
           
@@ -145,8 +88,6 @@ export class ComponentsComponent {
       {
         element.isExpanded = true;
       }
-
-      console.log(this.dataStore.projectTree);
       
   }
     
@@ -156,8 +97,6 @@ export class ComponentsComponent {
       {
          for(let i = 0; i < element.children.length; i++)
          {
-            console.log(element.children[i].name);
-
             element.children[i].isSelected = false;
 
             this.unSelect(element.children[i]);

@@ -165,11 +165,18 @@ export class ComponentService {
     return response;
   }
 
-  addFolder() : void {
+  async addFolder() : Promise<void> {
 
+    console.log("")
+    console.log("ComponentService.addFolder()");
+
+    console.log("addFolder from:");
+    let parentComponent: ComponentTreeElement = this._contextComponent!;
+    console.log(parentComponent);
+    
     let date: Date = new Date();
-
-    let newComponent: ComponentTreeElement = {
+  
+    let newFolder: FolderDTO = {
       id: 0,
       name: "new folder",
       creationDate: date.toISOString(),
@@ -179,46 +186,54 @@ export class ComponentService {
       isEditable: true,
       isSelected: true,
       isExpanded: false,
-      indent: this._contextComponent!.indent + 1,
-      type: "folder",
-      children: []
     }
 
-    let newFolder: FolderDTO = {
-      id: 0,
-      name: newComponent.name,
-      creationDate: newComponent.creationDate,
-      lastUpdateDate: newComponent.lastUpdateDate,
-      projectId: newComponent.projectId,
-      parentFolderId: newComponent.parentFolderId,
-      isEditable: newComponent.isEditable,
-      isSelected: newComponent.isSelected,
-      isExpanded: newComponent.isExpanded
-    }
-
-    let mainFolder: FolderDTO = {
-      id: this.dataStore.projectTree!.elements[0].id,
-      name: this.dataStore.projectTree!.elements[0].name,
-      creationDate: this.dataStore.projectTree!.elements[0].creationDate,
-      lastUpdateDate: this.dataStore.projectTree!.elements[0].lastUpdateDate,
-      projectId: this.dataStore.projectTree!.elements[0].projectId,
-      parentFolderId: this.dataStore.projectTree!.elements[0].parentFolderId,
-      isEditable: this.dataStore.projectTree!.elements[0].isEditable,
-      isSelected: this.dataStore.projectTree!.elements[0].isSelected,
-      isExpanded: this.dataStore.projectTree!.elements[0].isExpanded
-    }
-
-    this.desactivateContext();
-
-    console.log("")
-    console.log("ComponentService.addFolder(dto: FolderDTO)");
-    console.log("Http request: https://localhost:7241/api/Folder/createFolder, dto");
+    console.log("new FolderDTO():");
     console.log(newFolder);
+
+    console.log("ComponentService.addFolder(newFolder: FolderDTO)");
+    console.log("Http request: https://localhost:7241/api/Folder/createFolder, newFolder");
+    console.log(newFolder);
+
+    let apiResponse: FolderDTO | undefined = await this.addFolderAPIRequest(newFolder);
+    if(apiResponse != undefined)
+    {
+      let returnComponent = this._mapper.folderDTOToElementTree(apiResponse, this._contextComponent!.indent + 1);
+      console.log("new ComponentTreeElement():");
+      console.log(returnComponent);
+
+      let returnParentComponent = this._contextComponent;
+      console.log("insérer dans le ComponentTreeElement:");
+      console.log("avant:");
+      console.log(returnParentComponent);
+      returnParentComponent!.children.push(returnComponent);
+      returnParentComponent!.isExpanded = true;
+      console.log("après:");
+      console.log(returnParentComponent);
+      //le set ne fonctionne pas bien du tout
+      // this.dataStore.setComponentTreeElementById(returnParentComponent!.id, returnParentComponent!);
+
+      this.desactivateContext();
+    }
   
-    this.http.post<FolderDTO>("https://localhost:7241/api/Folder/createFolder", newFolder)
-    .subscribe((result: any) => {
-        console.log("Http request response: success");
-    });
+  }
+
+  async addFolderAPIRequest(folder: FolderDTO) : Promise<FolderDTO | undefined> {
+    console.log("")
+    console.log("ComponentService.addFolderAPIRequest(folder: FolderDTO)");
+
+    let response = await firstValueFrom(this.http.post<FolderDTO[]>("https://localhost:7241/api/Folder/createFolder", folder))
+    .then((result : any) => { 
+      console.log("Http request response: FolderDTO()");
+      console.log(result);
+      
+      return result })
+    .catch((error) => {
+      console.log(error.errorMessage);
+      return undefined;
+    })
+
+    return response;
 
   }
 

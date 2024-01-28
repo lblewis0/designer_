@@ -60,11 +60,73 @@ export class DataStoreService {
 
   }
 
-  //PROJECT SERVICE VARIABLES SETTERS
+  //COMPONENT SERVICE VARIABLES SETTERS AND GETTERS
   setProjectTree(projectTree: ComponentTree | undefined)
   {
     this.projectTree = projectTree;
     this.projectTree$.next(this.projectTree);
+  }
+
+  getComponentTreeElementById(id: number) {
+    
+    if(this.projectTree)
+    {
+      for(const rootElement of this.projectTree.elements)
+      {
+        const result: any = this.getComponentTreeElementByIdRecursive(id, rootElement);
+        if(result){
+          return result;
+        }
+      }
+    }
+    
+  }
+
+  getComponentTreeElementByIdRecursive(id: number, component: ComponentTreeElement) {
+
+    if(component.id === id){
+      return component;
+    }
+
+    for(const child of component.children){
+      const result: any = this.getComponentTreeElementByIdRecursive(id, child);
+      if(result){
+        return result
+      }
+    }
+
+    return undefined;
 
   }
+
+  setComponentTreeElementById(id: number, inputComponent: ComponentTreeElement)
+  {
+    console.log("DataStoreService.setComponentTreeElementById(id: number, inputComponent: ComponentTreeElement)");
+    
+    if(this.projectTree)
+    {
+      for(const rootElement of this.projectTree.elements)
+      {
+        this.setComponentTreeElementByIdRecursive(id, rootElement, inputComponent);
+      }
+
+      console.log("DataStoreService.projectTree$.next(this.projectTree)")
+      this.projectTree$.next(this.projectTree);
+    }
+  }
+
+  setComponentTreeElementByIdRecursive(id: number, component: ComponentTreeElement, inputComponent: ComponentTreeElement) {
+
+    if(component.id === id){
+      console.log(`Value changed at component: Id{${component.id}} - Name{${component.name}}`);
+      component = inputComponent;
+    }
+
+    for(const child of component.children){
+      this.setComponentTreeElementByIdRecursive(id, child, inputComponent);
+    }
+
+  }
+
+
 }

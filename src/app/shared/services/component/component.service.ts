@@ -199,20 +199,41 @@ export class ComponentService {
     if(apiResponse != undefined)
     {
       let returnComponent = this._mapper.folderDTOToElementTree(apiResponse, this._contextComponent!.indent + 1);
+      returnComponent.isEditable = true;
       console.log("new ComponentTreeElement():");
       console.log(returnComponent);
 
       let returnParentComponent = this._contextComponent;
-      console.log("insérer dans le ComponentTreeElement:");
-      console.log("avant:");
-      console.log(returnParentComponent);
       returnParentComponent!.children.push(returnComponent);
       returnParentComponent!.isExpanded = true;
-      console.log("après:");
-      console.log(returnParentComponent);
-      //le set ne fonctionne pas bien du tout
-      // this.dataStore.setComponentTreeElementById(returnParentComponent!.id, returnParentComponent!);
+      returnParentComponent!.lastUpdateDate = returnComponent.lastUpdateDate;
 
+      //Changement du componentTreeElement parent en front
+      this.dataStore.setComponentTreeElementById(returnParentComponent!.id, returnParentComponent!);
+      let parentFolder = this._mapper.elementTreeToFolderDTO(returnParentComponent!);
+      //Changement du componentTreeElement parent en back
+      this.updateLastUpdateDate(parentFolder);
+
+      //Changement de tous les componentTreeElement ancêtre
+      let ancestorIdList: number[] = this.dataStore.getComponentTreeParentsId(returnParentComponent!.id);
+      for(let i=0; i < ancestorIdList.length; i++)
+      {
+        let findId = ancestorIdList[i];
+        let ancestorComponent = this.dataStore.getComponentTreeElementById(findId);
+
+        ancestorComponent.lastUpdateDate = returnComponent.lastUpdateDate;
+
+        this.dataStore.setComponentTreeElementById(ancestorComponent.id, ancestorComponent);
+        let ancestorFolder = this._mapper.elementTreeToFolderDTO(ancestorComponent);
+        this.updateLastUpdateDate(ancestorFolder)
+      }
+
+      //Changement du projet actif
+      let activeProject: ProjectDTO | undefined = this._projectService.getActiveProject();
+      activeProject!.lastUpdateDate = returnComponent.lastUpdateDate;
+
+      this._projectService.updateLastUpdateProject(activeProject as ProjectDTO);
+      
       this.desactivateContext();
     }
   
@@ -286,5 +307,18 @@ export class ComponentService {
       }
     }
     return treeElement;
+  }
+
+  updateLastUpdateDate(folder: FolderDTO)
+  {
+    console.log("")
+    console.log("ComponentService.updateLastUpdateDate(folder: FolderDTO)");
+    console.log(folder);
+
+    this.http.post<FolderDTO>("https://localhost:7241/api/Folder/updateLastUpdateDate", folder).subscribe({
+      next: (result: any) => {
+        console.log("Http request service: success");
+      }
+    });
   }
 }

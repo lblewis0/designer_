@@ -144,6 +144,21 @@ export class ProjectService {
     });
   }
 
+  updateLastUpdateProject(dto: ProjectDTO)
+  {
+    console.log("")
+    console.log("ProjectService.updateLastUpdateProject(dto: ProjectDTO)");
+    console.log("Http request: https://localhost:7241/api/Project/updateLastUpdateDate, dto");
+    console.log(dto);
+    this.dataStore.setProject(dto);
+
+    this.http.post<ProjectDTO>("https://localhost:7241/api/Project/updateLastUpdateDate", dto).subscribe({
+      next: (result: any) => {
+        console.log("Http request service: success");
+      }
+    });
+  }
+
   deleteProject(dto: ProjectDTO)
   {
     console.log("")

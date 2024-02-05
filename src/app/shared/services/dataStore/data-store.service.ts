@@ -24,6 +24,7 @@ export class DataStoreService {
   //PROJECT SERVICE VARIABLES
   public projects: ProjectDTO[] | undefined;
   public projects$: BehaviorSubject<ProjectDTO[] | undefined> = new BehaviorSubject<ProjectDTO[] | undefined>(undefined);
+  public activeProject: ProjectDTO | undefined;
   public activeProject$: BehaviorSubject<ProjectDTO | undefined> = new BehaviorSubject<ProjectDTO | undefined>(undefined);
 
   //COMPONENT SERVICE VARIABLES
@@ -57,7 +58,24 @@ export class DataStoreService {
   {
     this.projects = projects;
     this.projects$.next(this.projects);
+  }
 
+  setProject(project: ProjectDTO)
+  {
+    for(let proj of this.projects!)
+    {
+      if(proj.id === project.id)
+      {
+        proj = project;
+      }
+    }
+    this.projects$.next(this.projects);
+  }
+
+  setActiveProject(project: ProjectDTO)
+  {
+    this.activeProject = project;
+    this.activeProject$.next(this.activeProject);
   }
 
   //COMPONENT SERVICE VARIABLES SETTERS AND GETTERS
@@ -118,14 +136,30 @@ export class DataStoreService {
   setComponentTreeElementByIdRecursive(id: number, component: ComponentTreeElement, inputComponent: ComponentTreeElement) {
 
     if(component.id === id){
-      console.log(`Value changed at component: Id{${component.id}} - Name{${component.name}}`);
       component = inputComponent;
+      console.log("ComponentTreeElement changed():");
+      console.log(component);
+      return;
     }
 
     for(const child of component.children){
       this.setComponentTreeElementByIdRecursive(id, child, inputComponent);
     }
 
+  }
+
+  getComponentTreeParentsId(id: number) : number[]
+  {
+    let ids: number[] = [];
+
+    let component: ComponentTreeElement = this.getComponentTreeElementById(id);
+
+    if(component.parentFolderId !== 0)
+    {
+      ids.push(component.parentFolderId);
+      ids.push(...this.getComponentTreeParentsId(component.parentFolderId));
+    }
+    return ids;
   }
 
 

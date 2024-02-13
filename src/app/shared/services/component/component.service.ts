@@ -21,6 +21,7 @@ export class ComponentService {
 
   public _context: ComponentContext | undefined;
   public _contextComponent: ComponentTreeElement | undefined;
+  public isInit: Boolean = false;
 
   public _projectTree: ComponentTree | undefined = {
     elements: []
@@ -34,11 +35,14 @@ export class ComponentService {
     public dataStore: DataStoreService) {
 
       this.dataStore.projects$.subscribe((value: ProjectDTO[] | undefined) => {
-        this.initComponentTree();
       })
 
       this.dataStore.projectTree$.subscribe((value: ComponentTree | undefined) => {
         this._projectTree = value;
+      })
+
+      this.dataStore.activeProject$.subscribe((value: ProjectDTO | undefined) => {
+        this.initComponentTree();
       })
 
       let projTree: ComponentTree = {
@@ -85,31 +89,37 @@ export class ComponentService {
 
   async initComponentTree(){
 
-    
-    console.log("");
-    console.log("ComponentService.initComponentTree()");
-    console.log("mainFolder:");
-    let mainFolder: FolderDTO | undefined = await this.getMainFolderByProjectId()
+    this.isInit = true;
 
-    //Le main folder existe
-    if(mainFolder !== undefined)
+    if(!this.isInit)
     {
-      let mainComponent = this._mapper.folderDTOToElementTree(mainFolder, 0);
-      mainComponent = await this.findFolderChildren(mainComponent);
-      mainComponent = await this.findComponentChildren(mainComponent);
+      console.log("");
+      console.log("ComponentService.initComponentTree()");
+      console.log("mainFolder:");
+      let mainFolder: FolderDTO | undefined = await this.getMainFolderByProjectId()
 
-      let tempProjectTree: ComponentTree | undefined = this.dataStore.projectTree;
-
-      if(tempProjectTree !== undefined)
+      //Le main folder existe
+      if(mainFolder !== undefined)
       {
-        tempProjectTree!.elements = [];
-        tempProjectTree!.elements.push(mainComponent);
-      }
+        let mainComponent = this._mapper.folderDTOToElementTree(mainFolder, 0);
+        mainComponent = await this.findFolderChildren(mainComponent);
+        mainComponent = await this.findComponentChildren(mainComponent);
 
-      this.dataStore.projectTree$.next(tempProjectTree);
-      console.log(this.dataStore.projectTree);
+        let tempProjectTree: ComponentTree | undefined = this.dataStore.projectTree;
+
+        if(tempProjectTree !== undefined)
+        {
+          tempProjectTree!.elements = [];
+          tempProjectTree!.elements.push(mainComponent);
+        }
+
+        this.dataStore.projectTree$.next(tempProjectTree);
+        console.log(this.dataStore.projectTree);
       
     }
+    }
+    
+    
     
   }
 

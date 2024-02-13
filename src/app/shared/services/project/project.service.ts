@@ -120,6 +120,7 @@ export class ProjectService {
       }
 
       console.log(project);
+      this.dataStore.setActiveProject(project as ProjectDTO);
       return project
     }
     else

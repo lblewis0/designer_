@@ -74,8 +74,10 @@ export class DataStoreService {
 
   setActiveProject(project: ProjectDTO)
   {
+    console.log("DatastoreService.setActiveProject()");
     this.activeProject = project;
     this.activeProject$.next(this.activeProject);
+    console.log(this.activeProject);
   }
 
   //COMPONENT SERVICE VARIABLES SETTERS AND GETTERS

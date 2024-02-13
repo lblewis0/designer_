@@ -98,6 +98,12 @@ export class ProjectService {
       this.dataStore.setProjects(result);
       console.log("Http request service: success");
       console.log(this._projects);
+
+      if(this.dataStore.currentUser?.userDTO.activeProjectId !== 0)
+      {
+        let activeProject = this.getActiveProject();
+        this.dataStore.setActiveProject(activeProject as ProjectDTO);
+      }
     });
 
   }
@@ -120,7 +126,6 @@ export class ProjectService {
       }
 
       console.log(project);
-      this.dataStore.setActiveProject(project as ProjectDTO);
       return project
     }
     else

@@ -95,7 +95,7 @@
 
 #update-col
 {
-    width: 10.6rem;
+    width: 10.8rem;
 }
 
 .table-col-div-header
@@ -177,36 +177,52 @@ $max-body-height: calc(($max-lines + 1) * 2.1rem);
     align-items: flex-start;
     height: calc(100% - 2rem);
     overflow-y: scroll;
-    scrollbar-width: thin;
+    scrollbar-width: 0.6rem;
+    scrollbar-color: $dark-5 transparent;
     width: 100%;
     padding-top: 0.2rem;
     // border: 1px solid magenta;
     // background-color: $background-color;
     border-radius: 0 0 0.375rem 0;
+
+    // &::-webkit-scrollbar {
+    //     width: 0.6rem;
+    // }
+    &::-webkit-scrollbar-thumb
+    {
+        border-radius: 0.3rem;
+    }
+    // &::-webkit-scrollbar-track
+    // {
+    //     background-color: transparent;
+    // }
+
+    // @supports not selector(::-webkit-scrollbar){
+    //     scrollbar-color: $dark-5 transparent;
+    //     scrollbar-width: thin;
+    // }
 }
 
-.table-col-div-body-last::-webkit-scrollbar {
+// .table-col-div-body-last::-webkit-scrollbar {
 
-    background-color: transparent;
-    width: 0.6rem;
-    // border-left: 1px solid lighten($background-color, 12%);
-    border-radius: 0.3rem;
+//     background-color: transparent;
+//     // width: 0.6rem;
+//     // border-left: 1px solid lighten($background-color, 12%);
+//     border-radius: 0.3rem;
 
-}
+// }
 
-.table-col-div-body-last::-webkit-scrollbar-thumb {
+// .table-col-div-body-last::-webkit-scrollbar-thumb {
 
-    background-color: $dark-5;
-    color: $dark-5;
-    fill: $dark-5;
-    border-radius: 0.3rem;
-}
+//     background-color: $dark-5;
+//     border-radius: 0.3rem;
+// }
 
-.table-col-div-body-last::-webkit-scrollbar-track {
+// .table-col-div-body-last::-webkit-scrollbar-track {
 
-    background-color: transparent;
+//     background-color: transparent;
     
-}
+// }
 
 .table-col-div-body-element
 {

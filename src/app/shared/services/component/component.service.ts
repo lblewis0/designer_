@@ -89,9 +89,7 @@ export class ComponentService {
 
   async initComponentTree(){
 
-    this.isInit = true;
-
-    if(!this.isInit)
+    if(this.isInit === false)
     {
       console.log("");
       console.log("ComponentService.initComponentTree()");
@@ -116,7 +114,9 @@ export class ComponentService {
         this.dataStore.projectTree$.next(tempProjectTree);
         console.log(this.dataStore.projectTree);
       
-    }
+      }
+
+      this.isInit = true;
     }
     
     

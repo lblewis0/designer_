@@ -6,6 +6,7 @@ import { SessionService } from '../../../shared/services/authentification/sessio
 import { TokenDTO } from '../../../shared/models/DTO/tokenDTO';
 import { AutoFocusDirective } from '../../../shared/directives/auto-focus.directive';
 import { ComponentService } from '../../../shared/services/component/component.service';
+import { DataStoreService } from '../../../shared/services/dataStore/data-store.service';
 
 @Component({
   selector: 'app-projects',
@@ -27,6 +28,7 @@ export class ProjectsComponent {
     public _projectService: ProjectService,
     public _sessionService: SessionService,
     public _componentService: ComponentService,
+    public dataStore: DataStoreService,
     private el: ElementRef
   ){
     this.projectForm = this._formBuilder.group({
@@ -79,7 +81,7 @@ export class ProjectsComponent {
         name: "",
         creationDate: "",
         lastUpdateDate: "",
-        userId: 0,
+        userId: this.dataStore.currentUser?.userDTO.id,
         isEditable: false
       }
 
@@ -89,7 +91,6 @@ export class ProjectsComponent {
       dto.name = this.projectForm.get('projectName')?.value;
       dto.creationDate = dateCreation.toISOString();
       dto.lastUpdateDate = dateCreation.toISOString();
-      dto.userId = this._sessionService._userId; 
 
       this._projectService.createProject(dto);
       this.projectForm.get('projectName')?.setValue(null);
@@ -115,7 +116,7 @@ export class ProjectsComponent {
     token!.userDTO.activeProjectId = id;
 
     this._sessionService.updateActiveProject(token as TokenDTO);
-    this._componentService.initComponentTree();
+    this._projectService.updateActiveProject();
   }
 
   //TABLE EVENTS

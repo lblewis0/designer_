@@ -31,6 +31,8 @@ export class DataStoreService {
   public projectTree: ComponentTree | undefined;
   public projectTree$: BehaviorSubject<ComponentTree | undefined> = new BehaviorSubject<ComponentTree | undefined>(undefined);
   public projectTreeMainFolderLoaded$: BehaviorSubject<Boolean> = new BehaviorSubject<Boolean>(false);
+  public projectTreeIsInit: Boolean = false;
+  public projectTreeIsInit$: BehaviorSubject<Boolean> = new BehaviorSubject<Boolean>(false);
 
   constructor() {}
 
@@ -74,10 +76,8 @@ export class DataStoreService {
 
   setActiveProject(project: ProjectDTO)
   {
-    console.log("DatastoreService.setActiveProject()");
     this.activeProject = project;
     this.activeProject$.next(this.activeProject);
-    console.log(this.activeProject);
   }
 
   //COMPONENT SERVICE VARIABLES SETTERS AND GETTERS
@@ -162,6 +162,12 @@ export class DataStoreService {
       ids.push(...this.getComponentTreeParentsId(component.parentFolderId));
     }
     return ids;
+  }
+
+  setProjectTreeIsInit(isInit: Boolean)
+  {
+    this.projectTreeIsInit = isInit;
+    this.projectTreeIsInit$.next(this.projectTreeIsInit);
   }
 
 

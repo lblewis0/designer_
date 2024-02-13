@@ -95,7 +95,7 @@
 
 #update-col
 {
-    width: 10.8rem;
+    width: 11rem;
 }
 
 .table-col-div-header
@@ -125,6 +125,7 @@
 #update-header
 {
     border-radius: 0 0.5rem 0 0;
+    width: calc(100% - 1.75rem);
 }
 
 $max-lines: 10;
@@ -185,44 +186,15 @@ $max-body-height: calc(($max-lines + 1) * 2.1rem);
     // background-color: $background-color;
     border-radius: 0 0 0.375rem 0;
 
-    // &::-webkit-scrollbar {
-    //     width: 0.6rem;
-    // }
-    &::-webkit-scrollbar-thumb
-    {
-        border-radius: 0.3rem;
-    }
-    // &::-webkit-scrollbar-track
+    // &::-webkit-scrollbar-thumb
     // {
-    //     background-color: transparent;
-    // }
-
-    // @supports not selector(::-webkit-scrollbar){
-    //     scrollbar-color: $dark-5 transparent;
-    //     scrollbar-width: thin;
+    //     border-radius: 0.3rem;
     // }
 }
 
-// .table-col-div-body-last::-webkit-scrollbar {
-
-//     background-color: transparent;
-//     // width: 0.6rem;
-//     // border-left: 1px solid lighten($background-color, 12%);
-//     border-radius: 0.3rem;
-
-// }
-
-// .table-col-div-body-last::-webkit-scrollbar-thumb {
-
-//     background-color: $dark-5;
-//     border-radius: 0.3rem;
-// }
-
-// .table-col-div-body-last::-webkit-scrollbar-track {
-
-//     background-color: transparent;
-    
-// }
+.table-col-div-body-last::-webkit-scrollbar-thumb{
+    border-radius: 0.3rem;
+}
 
 .table-col-div-body-element
 {
@@ -238,6 +210,8 @@ $max-body-height: calc(($max-lines + 1) * 2.1rem);
     width: 100%;
     box-sizing: border-box;
     height: 3rem;
+    max-height: 3rem;
+    min-height: 3rem;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -260,6 +234,8 @@ $max-body-height: calc(($max-lines + 1) * 2.1rem);
     width: 100%;
     box-sizing: border-box;
     height: 3rem;
+    max-height: 3rem;
+    min-height: 3rem;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -282,6 +258,8 @@ $max-body-height: calc(($max-lines + 1) * 2.1rem);
     width: 100%;
     box-sizing: border-box;
     height: 3rem;
+    max-height: 3rem;
+    min-height: 3rem;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -304,6 +282,8 @@ $max-body-height: calc(($max-lines + 1) * 2.1rem);
     box-sizing: border-box;
     background-color: $dark-2;
     height: 3rem;
+    max-height: 3rem;
+    min-height: 3rem;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -327,6 +307,8 @@ $max-body-height: calc(($max-lines + 1) * 2.1rem);
     box-sizing: border-box;
     background-color: $dark-2;
     height: 3rem;
+    max-height: 3rem;
+    min-height: 3rem;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -351,6 +333,8 @@ $max-body-height: calc(($max-lines + 1) * 2.1rem);
     box-sizing: border-box;
     background-color: $dark-2;
     height: 3rem;
+    max-height: 3rem;
+    min-height: 3rem;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -374,6 +358,8 @@ $max-body-height: calc(($max-lines + 1) * 2.1rem);
     box-sizing: border-box;
     background-color: $dark-3;
     height: 3rem;
+    max-height: 3rem;
+    min-height: 3rem;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -397,6 +383,8 @@ $max-body-height: calc(($max-lines + 1) * 2.1rem);
     box-sizing: border-box;
     background-color: $dark-3;
     height: 3rem;
+    max-height: 3rem;
+    min-height: 3rem;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -421,6 +409,8 @@ $max-body-height: calc(($max-lines + 1) * 2.1rem);
     box-sizing: border-box;
     background-color: $dark-3;
     height: 3rem;
+    max-height: 3rem;
+    min-height: 3rem;
     display: flex;
     flex-direction: row;
     justify-content: center;

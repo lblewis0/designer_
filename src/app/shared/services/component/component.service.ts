@@ -89,7 +89,7 @@ export class ComponentService {
 
   async initComponentTree(){
 
-    if(this.isInit === false)
+    if(this.dataStore.projectTreeIsInit === false)
     {
       console.log("");
       console.log("ComponentService.initComponentTree()");
@@ -112,11 +112,11 @@ export class ComponentService {
         }
 
         this.dataStore.projectTree$.next(tempProjectTree);
+        this.dataStore.setProjectTreeIsInit(true);
         console.log(this.dataStore.projectTree);
       
       }
 
-      this.isInit = true;
     }
     
     
@@ -125,7 +125,7 @@ export class ComponentService {
 
   async getMainFolderByProjectId() : Promise<FolderDTO | undefined>
   {
-    let dto: ProjectDTO | undefined = this._projectService.getActiveProject();
+    let dto: ProjectDTO | undefined = this.dataStore.activeProject;
 
     if(dto !== undefined)
     {

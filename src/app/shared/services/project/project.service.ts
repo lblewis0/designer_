@@ -80,6 +80,10 @@ export class ProjectService {
         }
 
         this.dataStore.setCurrentUser(newUser);
+        let activeProject = this.getActiveProject();
+        this.dataStore.setProjectTreeIsInit(false);
+        this.dataStore.setActiveProject(activeProject as ProjectDTO);
+        
         console.log(result);
       }
     });
@@ -178,5 +182,12 @@ export class ProjectService {
         this.getProjects(this.dataStore.currentUser);
       }
     });
+  }
+
+  updateActiveProject()
+  {
+    let activeProject = this.getActiveProject();
+    this.dataStore.setProjectTreeIsInit(false);
+    this.dataStore.setActiveProject(activeProject as ProjectDTO);
   }
 }

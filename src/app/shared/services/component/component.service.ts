@@ -93,7 +93,7 @@ export class ComponentService {
     {
       console.log("");
       console.log("ComponentService.initComponentTree()");
-      console.log("mainFolder:");
+      // console.log("mainFolder:");
       let mainFolder: FolderDTO | undefined = await this.getMainFolderByProjectId()
 
       //Le main folder existe
@@ -129,9 +129,9 @@ export class ComponentService {
 
     if(dto !== undefined)
     {
-      console.log("ComponentService.getFolderByProjectId(dto: ProjectDTO)");
-      console.log("Http request: https://localhost:7241/api/Folder/getFolderByProjectId, dto");
-      console.log(dto);
+      // console.log("ComponentService.getFolderByProjectId(dto: ProjectDTO)");
+      // console.log("Http request: https://localhost:7241/api/Folder/getFolderByProjectId, dto");
+      // console.log(dto);
  
       return await firstValueFrom(this.http.post<FolderDTO>("https://localhost:7241/api/Folder/getFolderByProjectId", dto))
     }
@@ -143,10 +143,10 @@ export class ComponentService {
   }
 
   async getFoldersByParentFolder(folder: FolderDTO) : Promise<FolderDTO[] | undefined> {
-    console.log("")
-    console.log("ComponentService.getFoldersByParentFolderId(folder: FolderDTO)");
-    console.log("Http request: https://localhost:7241/api/Folder/getFoldersByParentFolder, folder");
-    console.log(folder);
+    // console.log("")
+    // console.log("ComponentService.getFoldersByParentFolderId(folder: FolderDTO)");
+    // console.log("Http request: https://localhost:7241/api/Folder/getFoldersByParentFolder, folder");
+    // console.log(folder);
 
     let response = await firstValueFrom(this.http.post<FolderDTO[]>("https://localhost:7241/api/Folder/getFoldersByParentFolder", folder))
     .then((data : any) => { return data })
@@ -159,10 +159,10 @@ export class ComponentService {
   }
 
   async getComponentsByParentFolder(folder: FolderDTO) : Promise<ComponentDTO[] | undefined> {
-    console.log("")
-    console.log("ComponentService.getComponentsByParentFolder(folder: FolderDTO)");
-    console.log("Http request: https://localhost:7241/api/Component/getComponentsByParentFolder, folder");
-    console.log(folder);
+    // console.log("")
+    // console.log("ComponentService.getComponentsByParentFolder(folder: FolderDTO)");
+    // console.log("Http request: https://localhost:7241/api/Component/getComponentsByParentFolder, folder");
+    // console.log(folder);
 
     let list: ComponentDTO[] | undefined = undefined
 

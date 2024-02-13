@@ -16,6 +16,8 @@ import { ContextHomeComponentFileComponent } from './navigation/context-home-com
 import { ContextHomeComponentFolderComponent } from './navigation/context-home-component-folder/context-home-component-folder.component';
 import { ContextHomeProjectComponent } from './navigation/context-home-project/context-home-project.component';
 import { AutoFocusDirective } from './shared/directives/auto-focus.directive';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [

@@ -23,6 +23,12 @@ export class ContextHomeComponentFolderComponent {
     this._componentService.addFolder();
   }
 
+  renameFolder(){
+    console.log("");
+    console.log("ContextHomeComponentFolder.renameFolder()");
+    this._componentService.updateIsEditable();
+  }
+
   addComponent(){
     console.log("");
     console.log("ContextHomeComponentFolder.addComponent()");

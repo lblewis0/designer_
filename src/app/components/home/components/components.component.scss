@@ -2,7 +2,7 @@
 
 .c-main-div
 {
-    width: 45rem;
+    width: 55.4rem;
     height: calc(100% - 1rem);
     background-color: $dark-5;
     border-radius: 0.5rem;
@@ -107,7 +107,7 @@
     border: 1px solid $dark-1;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     color: $font-default;
     fill: $font-default;
@@ -123,7 +123,7 @@
     background-color: $dark-4;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     color: $font-default;;
     fill: $font-default;;
@@ -139,6 +139,24 @@
 {
     background-color: $dark-3;
     border: 1px solid $primary;
+}
+
+.li-element-left-div
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: fit-content;
+}
+
+.li-element-right-div
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    width: fit-content;
 }
 
 .li-element-expander
@@ -178,6 +196,20 @@
     padding-left: 0.75rem;
     padding-right: 0.5rem;
     text-decoration: none;
+}
+
+.li-element-a-date
+{
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    padding-left: 0.75rem;
+    padding-right: 0.5rem;
+    text-decoration: none;
+    width: 9rem;
+    // border: 1px solid yellow;
+    color: gray;
 }
 
 .project-name-form

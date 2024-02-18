@@ -180,11 +180,12 @@ export class ComponentService {
     console.log("")
     console.log("ComponentService.addFolder()");
 
-    console.log("addFolder from:");
+    // console.log("addFolder from:");
     let parentComponent: ComponentTreeElement = this._contextComponent!;
-    console.log(parentComponent);
+    // console.log(parentComponent);
     
     let date: Date = new Date();
+    date.setHours(date.getHours() + 1);
   
     let newFolder: FolderDTO = {
       id: 0,
@@ -195,11 +196,11 @@ export class ComponentService {
       parentFolderId: this._contextComponent!.id,
       isEditable: true,
       isSelected: true,
-      isExpanded: false,
+      isExpanded: true,
     }
 
-    console.log("new FolderDTO():");
-    console.log(newFolder);
+    // console.log("new FolderDTO():");
+    // console.log(newFolder);
 
     console.log("ComponentService.addFolder(newFolder: FolderDTO)");
     console.log("Http request: https://localhost:7241/api/Folder/createFolder, newFolder");
@@ -210,22 +211,25 @@ export class ComponentService {
     {
       let returnComponent = this._mapper.folderDTOToElementTree(apiResponse, this._contextComponent!.indent + 1);
       returnComponent.isEditable = true;
-      console.log("new ComponentTreeElement():");
-      console.log(returnComponent);
+      // console.log("new ComponentTreeElement():");
+      // console.log(returnComponent);
 
       let returnParentComponent = this._contextComponent;
       returnParentComponent!.children.push(returnComponent);
       returnParentComponent!.isExpanded = true;
       returnParentComponent!.lastUpdateDate = returnComponent.lastUpdateDate;
 
+      this.updateIsSelected(returnComponent);
+
       //Changement du componentTreeElement parent en front
       this.dataStore.setComponentTreeElementById(returnParentComponent!.id, returnParentComponent!);
-      let parentFolder = this._mapper.elementTreeToFolderDTO(returnParentComponent!);
       //Changement du componentTreeElement parent en back
+      let parentFolder = this._mapper.elementTreeToFolderDTO(returnParentComponent!);
       this.updateLastUpdateDate(parentFolder);
 
       //Changement de tous les componentTreeElement ancêtre
       let ancestorIdList: number[] = this.dataStore.getComponentTreeParentsId(returnParentComponent!.id);
+
       for(let i=0; i < ancestorIdList.length; i++)
       {
         let findId = ancestorIdList[i];
@@ -235,7 +239,7 @@ export class ComponentService {
 
         this.dataStore.setComponentTreeElementById(ancestorComponent.id, ancestorComponent);
         let ancestorFolder = this._mapper.elementTreeToFolderDTO(ancestorComponent);
-        this.updateLastUpdateDate(ancestorFolder)
+        this.updateLastUpdateDate(ancestorFolder);
       }
 
       //Changement du projet actif
@@ -247,6 +251,49 @@ export class ComponentService {
       this.desactivateContext();
     }
   
+  }
+
+  renameFolder(component: ComponentTreeElement) : void {
+    console.log("")
+    console.log("ComponentService.renameFolder()");
+
+    let renamedFolder = this._mapper.elementTreeToFolderDTO(component);
+    this.dataStore.setComponentTreeElementById(component.id!, component);
+
+    console.log("ComponentService.renameFolder(renamedFolder: FolderDTO)");
+    console.log("Http request: https://localhost:7241/api/Folder/renameFolder, renamedFolder");
+    console.log(renamedFolder);
+
+    this.http.post<FolderDTO>("https://localhost:7241/api/Folder/renameFolder", renamedFolder)
+    .subscribe({
+      next: (result: any) => {
+        // console.log("Http request service: success");
+      }
+    });
+
+    //Changement de tous les componentTreeElement ancêtre
+    let ancestorIdList: number[] = this.dataStore.getComponentTreeParentsId(renamedFolder!.id);
+
+    for(let i=0; i < ancestorIdList.length; i++)
+    {
+      let findId = ancestorIdList[i];
+      let ancestorComponent = this.dataStore.getComponentTreeElementById(findId);
+
+      ancestorComponent.lastUpdateDate = renamedFolder.lastUpdateDate;
+
+      this.dataStore.setComponentTreeElementById(ancestorComponent.id, ancestorComponent);
+      let ancestorFolder = this._mapper.elementTreeToFolderDTO(ancestorComponent);
+      this.updateLastUpdateDate(ancestorFolder);
+    }
+
+    //Changement du projet actif
+    let activeProject: ProjectDTO | undefined = this._projectService.getActiveProject();
+    activeProject!.lastUpdateDate = renamedFolder.lastUpdateDate;
+
+    this._projectService.updateLastUpdateProject(activeProject as ProjectDTO);
+
+    this.desactivateContext();
+
   }
 
   async addFolderAPIRequest(folder: FolderDTO) : Promise<FolderDTO | undefined> {
@@ -268,7 +315,7 @@ export class ComponentService {
 
   }
 
-  addComponent() : void {
+  async addComponent() : Promise<void> {
     console.log("");
     console.log("ComponentService.addComponent()");
   }
@@ -321,14 +368,129 @@ export class ComponentService {
 
   updateLastUpdateDate(folder: FolderDTO)
   {
-    console.log("")
-    console.log("ComponentService.updateLastUpdateDate(folder: FolderDTO)");
-    console.log(folder);
+    // console.log("")
+    // console.log("ComponentService.updateLastUpdateDate(folder: FolderDTO)");
+    // console.log(folder);
 
     this.http.post<FolderDTO>("https://localhost:7241/api/Folder/updateLastUpdateDate", folder).subscribe({
       next: (result: any) => {
-        console.log("Http request service: success");
+        // console.log("Http request service: success");
       }
     });
+  }
+
+  updateIsSelected(treeElement: ComponentTreeElement) : void {
+
+    //Changer la valeur de tous les autres elements en false
+    if(this.dataStore.projectTree!.elements && this.dataStore.projectTree!.elements.length > 0)
+    {
+      for(let i = 0; i < this.dataStore.projectTree!.elements.length; i++)
+      {
+        this.dataStore.projectTree!.elements[i].isSelected = false;
+        this.updateIsSelectedAPIRequest(this.dataStore.projectTree!.elements[i]);
+
+        if(this.dataStore.projectTree!.elements[i].children)
+        {
+          this.updateIsSelectedChildren(this.dataStore.projectTree!.elements[i]);
+        }
+      }
+
+    }
+
+    //Cahnger la valeur du treeElement en true
+    treeElement.isSelected = true;
+    this.updateIsSelectedAPIRequest(treeElement);
+    this.updateIsExpandedAPIRequest(treeElement);
+
+  }
+
+  updateIsSelectedChildren(treeElement: ComponentTreeElement)
+  {
+    if(treeElement.children && treeElement.children.length > 0)
+    {
+       for(let i = 0; i < treeElement.children.length; i++)
+       {
+          treeElement.children[i].isSelected = false;
+          this.updateIsSelectedAPIRequest(treeElement.children[i]);
+          this.updateIsSelectedChildren(treeElement.children[i]);
+       }
+    }
+  }
+
+  updateIsSelectedAPIRequest(treeElement: ComponentTreeElement)
+  {
+    if(treeElement.type === "folder")
+    {
+      let folder = this._mapper.elementTreeToFolderDTO(treeElement);
+      // console.log("ComponentService.updateIsSelectedAPIRequest(folder: FolderDTO)");
+      // console.log("Http request: https://localhost:7241/api/Folder/updateIsSelected, folder");
+      // console.log(folder);
+
+      this.http.post<FolderDTO>("https://localhost:7241/api/Folder/updateIsSelected", folder)
+      .subscribe((result:any) => {
+        // console.log("Http request service: success");
+      });
+    }
+
+    if(treeElement.type === "component")
+    {
+      let component = this._mapper.elementTreeToComponentDTO(treeElement);
+      // console.log("ComponentService.updateIsSelectedAPIRequest(component: ComponentDTO)");
+      // console.log("Http request: https://localhost:7241/api/Component/updateIsSelected, component");
+      // console.log(component);
+
+      this.http.post<ComponentDTO>("https://localhost:7241/api/Component/updateIsSelected", component)
+      .subscribe((result:any) => {
+        // console.log("Http request service: success");
+      });
+
+    }
+  }
+
+  updateIsExpandedAPIRequest(treeElement: ComponentTreeElement)
+  {
+    if(treeElement.isExpanded)
+    {
+      treeElement.isExpanded = false;
+    }
+    else
+    {
+      treeElement.isExpanded = true;
+    }
+    
+    if(treeElement.type === "folder")
+    {
+      let folder = this._mapper.elementTreeToFolderDTO(treeElement);
+      // console.log("ComponentService.updateIsExpandedAPIRequest(folder: FolderDTO)");
+      // console.log("Http request: https://localhost:7241/api/Folder/updateIsExpanded, folder");
+      // console.log(folder);
+
+      this.http.post<FolderDTO>("https://localhost:7241/api/Folder/updateIsExpanded", folder)
+      .subscribe((result:any) => {
+        // console.log("Http request service: success");
+      });
+    }
+
+    if(treeElement.type === "component")
+    {
+      let component = this._mapper.elementTreeToComponentDTO(treeElement);
+      // console.log("ComponentService.updateIsExpandedAPIRequest(component: ComponentDTO)");
+      // console.log("Http request: https://localhost:7241/api/Component/updateIsExpanded, component");
+      // console.log(component);
+
+      this.http.post<ComponentDTO>("https://localhost:7241/api/Component/updateIsExpanded", component)
+      .subscribe((result:any) => {
+        // console.log("Http request service: success");
+      });
+
+    }
+  }
+
+  updateIsEditable(){
+
+    let component = this.dataStore.getComponentTreeElementById(this._contextComponent!.id);
+    component.isEditable = true;
+    this.dataStore.setComponentTreeElementById(component!.id, component);
+    this._context!.isActive = false;
   }
 }

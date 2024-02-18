@@ -121,7 +121,7 @@ export class DataStoreService {
 
   setComponentTreeElementById(id: number, inputComponent: ComponentTreeElement)
   {
-    console.log("DataStoreService.setComponentTreeElementById(id: number, inputComponent: ComponentTreeElement)");
+    // console.log("DataStoreService.setComponentTreeElementById(id: number, inputComponent: ComponentTreeElement)");
     
     if(this.projectTree)
     {
@@ -130,7 +130,7 @@ export class DataStoreService {
         this.setComponentTreeElementByIdRecursive(id, rootElement, inputComponent);
       }
 
-      console.log("DataStoreService.projectTree$.next(this.projectTree)")
+      // console.log("DataStoreService.projectTree$.next(this.projectTree)")
       this.projectTree$.next(this.projectTree);
     }
   }
@@ -139,8 +139,8 @@ export class DataStoreService {
 
     if(component.id === id){
       component = inputComponent;
-      console.log("ComponentTreeElement changed():");
-      console.log(component);
+      // console.log("ComponentTreeElement changed():");
+      // console.log(component);
       return;
     }
 

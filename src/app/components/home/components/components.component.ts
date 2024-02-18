@@ -43,11 +43,15 @@ export class ComponentsComponent {
       console.log("-this.renameForm.valid");
       component.isEditable = false;
       component.name = this.renameForm.get('componentName')?.value;
-      component.lastUpdateDate = this.dateMapper.dateToString(new Date());
 
+      let date = new Date();
+      date.setHours(date.getHours() + 1);
+      component.lastUpdateDate = this.dateMapper.dateToString(date);
       console.log(component);
+      
+      this._componentService.renameFolder(component);
+      this.renameForm.get('componentName')?.setValue(null);
 
-      this.dataStore.setComponentTreeElementById(component.id, component);
     }
     else{
       console.log("-!this.renameForm.valid");
@@ -57,51 +61,9 @@ export class ComponentsComponent {
   }
 
 
-  onClickTreeElement(element: ProjectTreeElement) : void
+  onClickTreeElement(element: ComponentTreeElement) : void
   {
-      //Ensuite je regarde à tous les autres li présent dans la sidebar
-      //Et je change leur valeur en false
-      if(this.dataStore.projectTree!.elements && this.dataStore.projectTree!.elements.length > 0)
-      {
-         for(let i = 0; i < this.dataStore.projectTree!.elements.length;i++)
-         {
-            // console.log(this.dataStore.projectTree!.elements[i].name);
-            
-            this.dataStore.projectTree!.elements[i].isSelected = false;
-          
-            if(this.dataStore.projectTree!.elements[i].children)
-            {
-               this.unSelect(this.dataStore.projectTree!.elements[i]);
-            }
-         }
-      }
-
-      //Je reçois en argument un liElement
-      //Quoiqu'il arrive j'inverse sa valeur isSelected au click
-      element.isSelected = true;
-
-      if(element.isExpanded)
-      {
-        element.isExpanded = false;
-      }
-      else
-      {
-        element.isExpanded = true;
-      }
-      
-  }
-    
-  unSelect(element: ComponentTreeElement) : void
-  {
-      if(element.children && element.children.length > 0)
-      {
-         for(let i = 0; i < element.children.length; i++)
-         {
-            element.children[i].isSelected = false;
-
-            this.unSelect(element.children[i]);
-         }
-      }
+      this._componentService.updateIsSelected(element);   
   }
 
   onRightClickTreeElement(event: MouseEvent, componentId: number, type: string, component: ComponentTreeElement) : void {

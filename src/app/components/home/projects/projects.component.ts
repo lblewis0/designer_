@@ -57,6 +57,7 @@ export class ProjectsComponent {
       this._projectService._projects![id].isEditable = false;
       let dto: ProjectDTO = this._projectService._projects![id];
       let updateDate = new Date();
+      updateDate.setHours(updateDate.getHours() + 1);
 
       dto.name = this.renameForm.get('projectName')?.value;
       dto.lastUpdateDate = updateDate.toISOString();
@@ -86,6 +87,7 @@ export class ProjectsComponent {
       }
 
       let dateCreation = new Date();
+      dateCreation.setHours(dateCreation.getHours() + 1);
 
       dto.id = 0;
       dto.name = this.projectForm.get('projectName')?.value;

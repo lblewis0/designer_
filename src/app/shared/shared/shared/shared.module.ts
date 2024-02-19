@@ -15,7 +15,7 @@ import { StoreModule } from '@ngrx/store';
     RouterOutlet,
     RouterLink,
     RouterLinkActive,
-    StoreModule
+    // StoreModule
   ],
   exports: [
     FormsModule,

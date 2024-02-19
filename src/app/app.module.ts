@@ -18,6 +18,8 @@ import { ContextHomeProjectComponent } from './navigation/context-home-project/c
 import { AutoFocusDirective } from './shared/directives/auto-focus.directive';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenService } from './shared/services/authentification/token.interceptor';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,13 @@ import { EffectsModule } from '@ngrx/effects';
     RouterLinkActive,
     SharedModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
